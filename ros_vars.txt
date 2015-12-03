@@ -1,0 +1,13 @@
+#Add this to the end of your .bashrc
+# It sets your ros_master_uri, hostname and ip depending on if you # are connected to walrus or not.
+thisip=$(ifconfig | grep -i '192.168'| cut -d: -f2 | awk '{ print $1}')
+if [ -z "$String" ]; then
+
+thisip=localhost
+masterip=localhost
+else
+masterip=192.168.1.1
+fi
+export ROS_MASTER_URI=http://$masterip:11311
+export ROS_HOSTNAME=$thisip
+export ROS_IP=$ROS_HOSTNAME
