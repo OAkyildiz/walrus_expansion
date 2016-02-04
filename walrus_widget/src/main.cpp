@@ -151,7 +151,7 @@ int main(int argc, char **argv)
   MyViz* myviz = new MyViz();
   GraphicsView view;
   myviz->makeCurrent();
-  view.setViewport(myviz->render_panel_);
+  view.setViewport(myviz);
   view.setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
   //view.setScene(&scene);
   view.showFullScreen();

@@ -1,12 +1,9 @@
 include/walrus_widget/glextensions.h
 include/walrus_widget/myviz.h
+include/walrus_widget/overlay.h
 src/main.cpp
 src/myviz.cpp
-walrus_widget_stash/mainwindow.ui
-CMake_qt_ros.txt
+src/overlay.cpp
+ui/overlay.ui
 CMakeLists.txt
 package.xml
-package_qt_ros.xml
-overlay.h
-overlay.cpp
-overlay.ui
