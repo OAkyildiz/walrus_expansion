@@ -1,0 +1,112 @@
+##############################################################################
+# CMake
+##############################################################################
+
+cmake_minimum_required(VERSION 2.8.0)
+project(walrus_widget)
+
+
+##############################################################################
+# Catkin
+##############################################################################
+
+# qt_build provides the qt cmake glue, roscpp the comms for a default talker
+find_package(catkin REQUIRED COMPONENTS qt_build rviz roscpp)
+catkin_package()
+include_directories(${catkin_INCLUDE_DIRS})
+link_directories(${catkin_LIBRARY_DIRS})
+# Use this to define what the package will export (e.g. libs, headers).
+# Since the default here is to produce only a binary, we don't worry about
+# exporting anything. 
+
+
+## Find Ogre
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(OGRE_OV OGRE OGRE-Overlay)
+
+# Old versions of OGRE (pre 1.9) included OGRE-Overlay in the main package
+# (i.e. there was no OGRE-Overlay component).  So if the above
+# pkg_check_modules() failed, try looking for just OGRE.
+if(NOT OGRE_OV_FOUND)
+  pkg_check_modules(OGRE_OV REQUIRED OGRE)
+endif(NOT OGRE_OV_FOUND)
+
+## Find OGRE Plugin path (not necessarily platform-independent, I guess)
+execute_process(COMMAND
+  pkg-config --variable=plugindir OGRE
+  OUTPUT_VARIABLE OGRE_PLUGIN_PATH
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
+message(STATUS OGRE_PLUGIN_PATH=${OGRE_PLUGIN_PATH})
+
+# find absolute path of ogre libraries.
+# This is stored in the cache to save time on cmake re-run.
+# Using absolute paths is necessary if pkg-config finds Ogre in a different
+# location than the default.  This can happen when Ogre is built from source,
+# or when 2 versions of Ogre are installed.  Using absolute paths ensures that
+# components that link against Ogre (rviz and any packages depending on rviz)
+# all find the same Ogre shared library.
+if(NOT DEFINED OGRE_OV_LIBRARIES_ABS)
+  unset(OGRE_OV_LIBRARIES_ABS_TMP)
+  foreach(_lib ${OGRE_OV_LIBRARIES})
+    set(OGRE_OV_LIB_TAG "OGRE_OV_RVIZ_LIB_${_lib}")
+
+    find_library(${OGRE_OV_LIB_TAG}
+            NAMES ${_lib}
+            HINTS ${OGRE_OV_LIBRARY_DIRS}
+            PATHS ${OGRE_OV_LIBRARY_DIRS}
+    )
+
+    set(OGRE_OV_LIBRARIES_ABS_TMP ${OGRE_OV_LIBRARIES_ABS_TMP} ${${OGRE_OV_LIB_TAG}})
+  endforeach(_lib)
+
+  set(OGRE_OV_LIBRARIES_ABS ${OGRE_OV_LIBRARIES_ABS_TMP}
+        CACHE FILEPATH "Pathname of library ${_lib}")
+endif(NOT DEFINED OGRE_OV_LIBRARIES_ABS)
+
+include_directories(${OGRE_OV_INCLUDE_DIRS})
+link_directories(${OGRE_OV_LIBRARY_DIRS})
+
+## This plugin includes Qt widgets, so we must include Qt like so:
+find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
+include(${QT_USE_FILE})
+
+## I prefer the Qt signals and slots to avoid defining "emit", "slots",
+## etc because they can conflict with boost signals, so define QT_NO_KEYWORDS here.
+add_definitions(-DQT_NO_KEYWORDS)
+##############################################################################
+# Qt Environment
+##############################################################################
+
+# this comes from qt_build's qt-ros.cmake which is automatically 
+# included via the dependency call in package.xml
+rosbuild_prepare_qt4(QtCore QtGui) # Add the appropriate components to the component list here
+
+##############################################################################
+# Sections
+##############################################################################
+
+file(GLOB QT_FORMS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ui/*.ui)
+file(GLOB QT_RESOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} resources/*.qrc)
+file(GLOB_RECURSE QT_MOC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINKS include/walrus_widget/*.hpp)
+
+QT4_ADD_RESOURCES(QT_RESOURCES_CPP ${QT_RESOURCES})
+QT4_WRAP_UI(QT_FORMS_HPP ${QT_FORMS})
+QT4_WRAP_CPP(QT_MOC_HPP ${QT_MOC})
+
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${includedir} -I${includedir}/OGRE -pthread")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I${includedir} -I${includedir}/OGRE -pthread")
+##############################################################################
+# Sources
+##############################################################################
+
+file(GLOB_RECURSE QT_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINKS src/*.cpp)
+
+##############################################################################
+# Binaries
+##############################################################################
+
+add_executable(walrus_widget ${QT_SOURCES} ${QT_RESOURCES_CPP} ${QT_FORMS_HPP} ${QT_MOC_HPP})
+target_link_libraries(walrus_widget ${QT_LIBRARIES} ${catkin_LIBRARIES})
+install(TARGETS walrus_widget RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+

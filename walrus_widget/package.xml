@@ -1,0 +1,31 @@
+<package>
+  <name>walrus_widget</name>
+  <version>0.9.2</version>
+  <description>
+     Tutorial showing how to compile your own C++ program with RViz displays and features.
+  </description>
+  <maintainer email="oakyildiz@wpi.edu">Ozan Akyildiz</maintainer>
+  <license>BSD</license>
+
+  <author>Ozan Akyildiz</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  
+
+  <build_depend>roscpp</build_depend>
+  <build_depend>rviz</build_depend>
+  <build_depend>OpenGL</build_depend>
+  <build_depend>glut</build_depend>
+  <build_depend>libxmu-dev</build_depend>
+  <build_depend>libxi-dev</build_depend>
+  
+  <run_depend>roscpp</run_depend>
+  <run_depend>rviz</run_depend>
+  <run_depend>OpenGL</run_depend>
+  <run_depend>glut</run_depend>
+  <run_depend>libxmu-dev</run_depend>
+  <run_depend>libxi-dev</run_depend>
+  <export>
+      <rosdoc config="${prefix}/rosdoc.yaml"/>
+  </export>
+</package>

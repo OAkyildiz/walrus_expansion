@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<script type="text/javascript" src="http://cdn.robotwebtools.org/EventEmitter2/current/eventemitter2.js"></script>
+<script type="text/javascript" src="http://cdn.robotwebtools.org/roslibjs/current/roslib.js"></script>
+
+<script type="text/javascript">
+  var ros = new ROSLIB.Ros({
+    url : 'ws://192.168.1.1:9003'
+  });
+
+  var param = new ROSLIB.Param({
+    ros : ros,
+    name : 'robot_description'
+  });
+
+  param.get(function(param) {
+    var urdfModel = new ROSLIB.UrdfModel({
+      string : param
+    });
+    console.log(urdfModel);
+  });
+
+  ros.on('connection', function() {
+    console.log('Connected to websocket server.');
+  });
+
+  ros.on('error', function(error) {
+    console.log('Error connecting to websocket server: ', error);
+  });
+
+  ros.on('close', function() {
+    console.log('Connection to websocket server closed.');
+  });
+</script>
+</head>
+
+<body>
+  <h1>URDF Parsing Example</h1>
+  <p>Check the JavaScript console for the output.</p>
+</body>
+</html>
