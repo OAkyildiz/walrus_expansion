@@ -26,8 +26,8 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef MYVIZ_H
-#define MYVIZ_H
+#ifndef MAPVIZ_H
+#define MAPVIZ_H
 
 #include <QWidget>
 
@@ -40,12 +40,12 @@ class VisualizationManager;
 
 // BEGIN_TUTORIAL
 // Class "MyViz" implements the top level widget for this example.
-class MyViz: public QWidget
+class MapViz: public QWidget
 {
 Q_OBJECT
 public:
-  MyViz( QWidget* parent = 0 );
-  virtual ~MyViz();
+  MapViz( QWidget* parent = 0 );
+  virtual ~MapViz();
 
 private Q_SLOTS:
   //void setThickness( int thickness_percent );
@@ -59,4 +59,4 @@ private:
   //TO DO:: Encapsulate render panel elements rviz::RenderPanel*<-fancyname
 };
 // END_TUTORIAL
-#endif // MYVIZ_H
+#endif // MAPVIZ_H

@@ -36,48 +36,22 @@
 #include "rviz/render_panel.h"
 #include "rviz/display.h"
 
-#include "../include/walrus_widget/myviz.h"
+#include "../include/walrus_widget/mapviz.h"
 
 // BEGIN_TUTORIAL
 // Constructor for MyViz.  This does most of the work of the class.
-MyViz::MyViz( QWidget* parent )
+MapViz::MapViz( QWidget* parent )
   : QWidget( parent )
 {
-/*  Old slider stuff
-// Construct and lay out labels and slider controls.
-//  QLabel* thickness_label = new QLabel( "Line Thickness" );
-//  QSlider* thickness_slider = new QSlider( Qt::Horizontal );
-//  thickness_slider->setMinimum( 1 );
-//  thickness_slider->setMaximum( 100 );
-//  QLabel* cell_size_label = new QLabel( "Cell Size" );
-//  QSlider* cell_size_slider = new QSlider( Qt::Horizontal );
-//  cell_size_slider->setMinimum( 1 );
-//  cell_size_slider->setMaximum( 100 );
-//  QGridLayout* controls_layout = new QGridLayout();
-//  controls_layout->addWidget( thickness_label, 0, 0 );
-//  controls_layout->addWidget( thickness_slider, 0, 1 );
-//  controls_layout->addWidget( cell_size_label, 1, 0 );
-//  controls_layout->addWidget( cell_size_slider, 1, 1 );
-*/
+
   // Construct and lay out render panel.
   render_panel_ = new rviz::RenderPanel();
   QVBoxLayout* main_layout = new QVBoxLayout;
   //main_layout->addLayout( controls_layout );
   main_layout->addWidget( render_panel_ );
+  setLayout( main_layout );
 
-  // Set the top-level layout for this MyViz widget.
-  //setLayout( main_layout );
 
-  // Make signal/slot connections.
- // connect( thickness_slider, SIGNAL( valueChanged( int )), this, SLOT( setThickness( int )));
- // connect( cell_size_slider, SIGNAL( valueChanged( int )), this, SLOT( setCellSize( int )));
-
-  // Next we initialize the main RViz classes.
-  //
-  // The VisualizationManager is the container for Display objects,
-  // holds the main Ogre scene, holds the ViewController, etc.  It is
-  // very central and we will probably need one in every usage of
-  // librviz.
   manager_ = new rviz::VisualizationManager( render_panel_ );
   render_panel_->initialize( manager_->getSceneManager(), manager_ );
   manager_->initialize();
@@ -91,7 +65,7 @@ MyViz::MyViz( QWidget* parent )
   // Configure the GridDisplay the way we like it.
   grid_->subProp( "Line Style" )->setValue( "Billboards" );
   grid_->subProp( "Color" )->setValue( Qt::yellow );
-  grid_->subProp( "Grid")->setValue("walrus/odom");
+  grid_->subProp( "Frame")->setValue("walrus/odom");
 
   model_->subProp( "Tf Prefix")->setValue("walrus/");
 
@@ -102,7 +76,7 @@ MyViz::MyViz( QWidget* parent )
 }
 
 // Destructor.
-MyViz::~MyViz()
+MapViz::~MapViz()
 {
   delete manager_;
 }

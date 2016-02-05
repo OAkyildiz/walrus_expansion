@@ -39,9 +39,10 @@
 #include <QGLWidget>
 #include <QtOpenGL>
 #include "../include/walrus_widget/glextensions.h"
-#include "../include/walrus_widget/myviz.h"
+#include "../include/walrus_widget/mapviz.h"
+#include "../include/walrus_widget/overlay.h"
 
-
+/*
 
 class GraphicsView : public QGraphicsView
 {
@@ -96,6 +97,7 @@ bool necessaryExtensionsSupported()
     return (extensions == 15);
 }
 
+*/
 
 int main(int argc, char **argv)
 {
@@ -107,6 +109,7 @@ int main(int argc, char **argv)
   /* Init QApp*/
   QApplication app( argc, argv );
 
+  /*
   if ((QGLFormat::openGLVersionFlags() & QGLFormat::OpenGL_Version_1_5) == 0) {
       QMessageBox::critical(0, "OpenGL features missing",
           "OpenGL version 1.5 or higher is required to run this demo.\n"
@@ -125,9 +128,12 @@ int main(int argc, char **argv)
       delete widget;
       return -2;
   }
+  */
 
   // Check if all the necessary functions are resolved.
-  /*if (!getGLExtensionFunctions().resolve(widget->context())) {
+
+  /*
+   * if (!getGLExtensionFunctions().resolve(widget->context())) {
       QMessageBox::critical(0, "OpenGL features missing",
           "Failed to resolve OpenGL functions required to run this demo.\n"
           "The program will now exit.");
@@ -143,21 +149,18 @@ int main(int argc, char **argv)
       "work poorly or not at all on your system.");
  */
 
-
-
-
-
+ //GraphicsView view;
 
   // The current context must be set before calling Scene's constructor
-  MyViz* myviz = new MyViz();
-  GraphicsView view;
-  widget->makeCurrent();
-  view.setViewport(myviz);
-  view.setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+  //void Qwidget:raise();
+
+  MyViz* world = new MyViz();
+  Overlay* overlay = new Overlay(world);
+  world->showFullScreen();
+
   //view.setScene(&scene);
-  view.showFullScreen();
 
   app.exec();
 
-  delete myviz;
+  delete world;
 }
