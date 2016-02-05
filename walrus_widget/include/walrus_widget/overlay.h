@@ -2,7 +2,7 @@
 #define OVERLAY_H
 
 #include <QWidget>
-
+#include "ui_overlay.h"
 namespace Ui {
 class Overlay;
 }

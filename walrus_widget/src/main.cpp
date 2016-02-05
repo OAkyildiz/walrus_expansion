@@ -147,10 +147,11 @@ int main(int argc, char **argv)
 
 
 
-  ; // The current context must be set before calling Scene's constructor
+
+  // The current context must be set before calling Scene's constructor
   MyViz* myviz = new MyViz();
   GraphicsView view;
-  myviz->makeCurrent();
+  widget->makeCurrent();
   view.setViewport(myviz);
   view.setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
   //view.setScene(&scene);

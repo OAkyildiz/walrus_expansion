@@ -1,4 +1,4 @@
-#include "overlay.h"
+#include "../include/walrus_widget/overlay.h"
 #include "ui_overlay.h"
 
 Overlay::Overlay(QWidget *parent) :

@@ -1,9 +1,12 @@
+include/walrus_widget/glbuffers.h
 include/walrus_widget/glextensions.h
 include/walrus_widget/myviz.h
 include/walrus_widget/overlay.h
+include/walrus_widget/scene.h
 src/main.cpp
 src/myviz.cpp
 src/overlay.cpp
+src/scene.cpp
 ui/overlay.ui
 CMakeLists.txt
 package.xml
