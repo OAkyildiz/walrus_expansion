@@ -33,6 +33,7 @@
 // initializes ROS, creates a QApplication, creates the top-level
 // widget (of type "MyViz"), shows it, and runs the Qt event loop.
 
+#include <stdlib.h>     /* getenv */
 #include <QApplication>
 #include <ros/ros.h>
 #include <QWidget>
@@ -41,8 +42,10 @@
 #include "../include/walrus_widget/glextensions.h"
 #include "../include/walrus_widget/mapviz.h"
 #include "../include/walrus_widget/overlay.h"
+#include "../include/walrus_widget/qnode.hpp"
 
-/*
+/* GraphicsView checks
+
 
 class GraphicsView : public QGraphicsView
 {
@@ -99,14 +102,15 @@ bool necessaryExtensionsSupported()
 
 */
 
+
 int main(int argc, char **argv)
 {
-  if( !ros::isInitialized() )
-  {
-    ros::init( argc, argv, "myviz", ros::init_options::AnonymousName );
-  }
+//  if( !ros::isInitialized() )
+//  {
+//    ros::init( argc, argv, "myviz", ros::init_options::AnonymousName );
+//  }
 
-  /* Init QApp*/
+  /* Init QApp*/    
   QApplication app( argc, argv );
 
   /*
@@ -154,11 +158,15 @@ int main(int argc, char **argv)
   // The current context must be set before calling Scene's constructor
   //void Qwidget:raise();
 
-  MyViz* world = new MyViz();
+  /* Init RosNode*/
+  qnode::QNode* qnode = new qnode::QNode(argc,argv);
+  qnode->init(getenv("ROS_MASTER_URI"),getenv("ROS_HOSTNAME"));
+
+  MapViz* world = new MapViz();
   Overlay* overlay = new Overlay(world);
   world->showFullScreen();
 
-  //view.setScene(&scene);
+  // // view.setScene(&scene);
 
   app.exec();
 

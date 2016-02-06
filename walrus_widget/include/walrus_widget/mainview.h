@@ -9,9 +9,9 @@ class mainview : public QMainWindow
 public:
     explicit mainview(QWidget *parent = 0);
 
-signals:
+Q_SIGNALS:
 
-public slots:
+public Q_SLOTS:
 
 };
 

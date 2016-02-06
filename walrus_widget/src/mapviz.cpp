@@ -35,7 +35,7 @@
 #include "rviz/visualization_manager.h"
 #include "rviz/render_panel.h"
 #include "rviz/display.h"
-
+#include "../include/rtabmap_ros/rviz/MapGraphDisplay.h"
 #include "../include/walrus_widget/mapviz.h"
 
 // BEGIN_TUTORIAL
@@ -59,8 +59,11 @@ MapViz::MapViz( QWidget* parent )
 
   // Create a Grid display.
   grid_ = manager_->createDisplay( "rviz/Grid", "adjustable grid", true );
+  //TODO: make walrus_model class
   model_ = manager_->createDisplay( "rviz/RobotModel", "robot_model", true );
-  ROS_ASSERT( grid_ != NULL );
+
+  map_ = new rtabmap_ros::MapGraphDisplay();
+  manager_->addDisplay(map_,true);
   ROS_ASSERT( model_ != NULL );
   // Configure the GridDisplay the way we like it.
   grid_->subProp( "Line Style" )->setValue( "Billboards" );

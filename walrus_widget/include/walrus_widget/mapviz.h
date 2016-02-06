@@ -36,8 +36,12 @@ namespace rviz
 class Display;
 class RenderPanel;
 class VisualizationManager;
-}
 
+}
+namespace rtabmap_ros
+{
+class MapGraphDisplay;
+}
 // BEGIN_TUTORIAL
 // Class "MyViz" implements the top level widget for this example.
 class MapViz: public QWidget
@@ -56,6 +60,7 @@ private:
   rviz::RenderPanel* render_panel_;
   rviz::Display* grid_;
   rviz::Display* model_;
+  rtabmap_ros::MapGraphDisplay* map_;
   //TO DO:: Encapsulate render panel elements rviz::RenderPanel*<-fancyname
 };
 // END_TUTORIAL

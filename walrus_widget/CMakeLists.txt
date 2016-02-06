@@ -4,7 +4,7 @@
 ## First start with some standard catkin stuff.
 cmake_minimum_required(VERSION 2.8.3)
 project(walrus_widget)
-find_package(catkin REQUIRED COMPONENTS rviz roscpp)
+find_package(catkin REQUIRED COMPONENTS rviz roscpp rtabmap_ros)
 #find_package(OpenGL REQUIRED)
 #find_package(GLUT REQUIRED)
 
@@ -48,8 +48,8 @@ file(GLOB RES_FILES
 )
 
 file(GLOB HDR_FILES
-  include/walrus_widget/*.hpp
-  include/walrus_widget/*.h
+  include/*/*.hpp
+  include/*/*.h
   /*.h
   /*.hpp
 )
