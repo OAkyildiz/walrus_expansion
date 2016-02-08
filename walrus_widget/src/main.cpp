@@ -40,8 +40,7 @@
 #include <QGLWidget>
 #include <QtOpenGL>
 #include "../include/walrus_widget/glextensions.h"
-#include "../include/walrus_widget/mapviz.h"
-#include "../include/walrus_widget/overlay.h"
+#include "../include/walrus_widget/mainview.h"
 #include "../include/walrus_widget/qnode.hpp"
 
 /* GraphicsView checks
@@ -162,13 +161,13 @@ int main(int argc, char **argv)
   qnode::QNode* qnode = new qnode::QNode(argc,argv);
   qnode->init(getenv("ROS_MASTER_URI"),getenv("ROS_HOSTNAME"));
 
-  MapViz* world = new MapViz();
-  Overlay* overlay = new Overlay(world);
-  world->showFullScreen();
+  MainView* widget = new MainView();
+//  widget->setWindowState(widget->windowState() ^ Qt::WindowFullScreen);
+  widget->show();
 
   // // view.setScene(&scene);
 
   app.exec();
 
-  delete world;
+  delete widget;
 }
