@@ -17,6 +17,12 @@ public:
 
 private:
     Ui::Overlay *ui;
+
+// slots
+    //battery[]
+    //speed
+    //signal
+
 };
 
 #endif // OVERLAY_H

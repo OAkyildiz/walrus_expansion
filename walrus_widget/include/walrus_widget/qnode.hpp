@@ -18,9 +18,12 @@
 
 #include <ros/ros.h>
 #include <string>
+
 #include <QThread>
 #include <QStringListModel>
 
+#include "std_msgs/String.h"
+#include "diagnostic_aggregator/aggregator.h"
 
 /*****************************************************************************
 ** Namespaces
@@ -37,6 +40,10 @@ class QNode : public QThread {
 public:
 	QNode(int argc, char** argv );
 	virtual ~QNode();
+
+    //boost::shared_ptr<diagnostic_msgs::DiagnosticStatus> diagnosticReport;
+    const std::vector<boost::shared_ptr<diagnostic_msgs::DiagnosticStatus> > diagnosticReport;
+
 	bool init();
 	bool init(const std::string &master_url, const std::string &host_url);
 	void run();
@@ -59,11 +66,21 @@ Q_SIGNALS:
 	void loggingUpdated();
     void rosShutdown();
 
+    void updateBattery();
+    void updateSignal();
+
+
+    //updates here
 private:
 	int init_argc;
 	char** init_argv;
 	ros::Publisher chatter_publisher;
+    ros::Subscriber diagnostics_sub;
     QStringListModel logging_model;
+
+    //3 node handles (odom, rviz?, diag)
+    void setupNode();
+    void diagnosticsCallback(const diagnostic_msgs::DiagnosticArray::ConstPtr& diag_msg);
 };
 
 }  // namespace qnode

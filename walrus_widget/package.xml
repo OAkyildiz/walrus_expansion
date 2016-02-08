@@ -27,6 +27,7 @@
   <run_depend>glut</run_depend>
   <run_depend>libxmu-dev</run_depend>
   <run_depend>libxi-dev</run_depend>
+
   <export>
       <rosdoc config="${prefix}/rosdoc.yaml"/>
   </export>

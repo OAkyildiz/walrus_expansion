@@ -160,10 +160,16 @@ int main(int argc, char **argv)
   /* Init RosNode*/
   qnode::QNode* qnode = new qnode::QNode(argc,argv);
   qnode->init(getenv("ROS_MASTER_URI"),getenv("ROS_HOSTNAME"));
+  QWidget* widget = new QWidget();
 
-  MainView* widget = new MainView();
-//  widget->setWindowState(widget->windowState() ^ Qt::WindowFullScreen);
+  MapViz* scene3d_ = new MapViz(widget);
+  Overlay* indicators_=new Overlay(widget);
+  indicators_->setAttribute(Qt::WA_TranslucentBackground);
+
+
+  widget->setWindowState(widget->windowState() ^ Qt::WindowFullScreen);
   widget->show();
+
 
   // // view.setScene(&scene);
 
