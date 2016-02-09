@@ -1,7 +1,9 @@
 #include "../include/walrus_widget/mainview.h"
+
+
 #include <QMessageBox>
 #include <QVBoxLayout>
-#include <QWidget>
+
 
 
 MainView::MainView(QWidget *parent) :

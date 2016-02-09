@@ -162,10 +162,10 @@ int main(int argc, char **argv)
   qnode->init(getenv("ROS_MASTER_URI"),getenv("ROS_HOSTNAME"));
   QWidget* widget = new QWidget();
 
-  MapViz* scene3d_ = new MapViz(widget);
-  Overlay* indicators_=new Overlay(widget);
-  indicators_->setAttribute(Qt::WA_TranslucentBackground);
-
+  MapViz* scene3d_ = new MapViz(widget,qnode);
+  //Overlay* indicators_=new Overlay(widget);
+  //indicators_->setAttribute(Qt::WA_TranslucentBackground);
+  //scene3d_->grid_;
 
   widget->setWindowState(widget->windowState() ^ Qt::WindowFullScreen);
   widget->show();

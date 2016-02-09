@@ -2,7 +2,7 @@
 #define MAINVIEW_H
 
 #include <QMainWindow>
-#include <QWidget>
+
 #include "../include/walrus_widget/mapviz.h"
 #include "../include/walrus_widget/overlay.h"
 class MainView : public QMainWindow

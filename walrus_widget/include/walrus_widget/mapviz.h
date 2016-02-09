@@ -30,11 +30,8 @@
 #define MAPVIZ_H
 
 #include <QWidget>
-#include "rviz/visualization_manager.h"
-#include "rviz/render_panel.h"
-#include "rviz/display.h"
-#include "../include/rtabmap_ros/rviz/MapGraphDisplay.h"
 #include "../include/walrus_widget/qnode.hpp"
+
 
 namespace rviz
 {
@@ -47,20 +44,44 @@ namespace rtabmap_ros
 {
 class MapGraphDisplay;
 }
+
 // BEGIN_TUTORIAL
 // Class "MyViz" implements the top level widget for this example.
 class MapViz: public QWidget
 {
 Q_OBJECT
 public:
-  MapViz( QWidget* parent = 0 );
+//  Mapviz( QWidget* parent = 0);
+  MapViz( QWidget* parent = 0, qnode::QNode* qnode = 0 );
+
+
+  //move to Q_SLOTS?
   virtual ~MapViz();
+
+  qnode::QNode *qnode() const;
+  void setQNode(qnode::QNode *qnode);
+
+  rviz::VisualizationManager *manager() const;
+  void setManager(rviz::VisualizationManager *manager);
+
+  rviz::RenderPanel *render_panel() const;
+  void setRender_panel(rviz::RenderPanel *render_panel);
+
+  rviz::Display *grid() const;
+  void setGrid(rviz::Display *grid);
+
+  rviz::Display *model() const;
+  void setModel(rviz::Display *model);
+
+  rtabmap_ros::MapGraphDisplay *map() const;
+  void setMap(rtabmap_ros::MapGraphDisplay *map);
 
 private Q_SLOTS:
   //void setThickness( int thickness_percent );
   //void setCellSize( int cell_size_percent );
 
 private:
+  qnode::QNode* qnode_;
   rviz::VisualizationManager* manager_;
   rviz::RenderPanel* render_panel_;
   rviz::Display* grid_;

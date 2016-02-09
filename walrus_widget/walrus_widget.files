@@ -1,3 +1,7 @@
+include/rtabmap_ros/rviz/InfoDisplay.h
+include/rtabmap_ros/rviz/MapCloudDisplay.h
+include/rtabmap_ros/rviz/MapGraphDisplay.h
+include/rtabmap_ros/rviz/OrbitOrientedViewController.h
 include/walrus_widget/glbuffers.h
 include/walrus_widget/glextensions.h
 include/walrus_widget/mainview.h

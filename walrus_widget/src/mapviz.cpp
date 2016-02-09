@@ -33,13 +33,18 @@
 
 #include "../include/walrus_widget/mapviz.h"
 
+#include "rviz/visualization_manager.h"
+#include "rviz/render_panel.h"
+#include "rviz/display.h"
+#include "../include/rtabmap_ros/rviz/MapGraphDisplay.h"
+
 
 // BEGIN_TUTORIAL
 // Constructor for MyViz.  This does most of the work of the class.
-MapViz::MapViz( QWidget* parent )
+MapViz::MapViz( QWidget* parent, qnode::QNode* qnode )
   : QWidget( parent )
 {
-
+  //setQNode(qnode);
   // Construct and lay out render panel.
   render_panel_ = new rviz::RenderPanel();
   QVBoxLayout* main_layout = new QVBoxLayout;
@@ -64,7 +69,7 @@ MapViz::MapViz( QWidget* parent )
   // Configure the GridDisplay the way we like it.
   grid_->subProp( "Line Style" )->setValue( "Billboards" );
   grid_->subProp( "Color" )->setValue( Qt::yellow );
-  grid_->subProp( "Frame")->setValue("walrus/odom");
+  grid_->setFixedFrame("walrus/odom");
 
   model_->subProp( "Tf Prefix")->setValue("walrus/");
 
@@ -73,12 +78,77 @@ MapViz::MapViz( QWidget* parent )
   //thickness_slider->setValue( 25 );
  // cell_size_slider->setValue( 10 );
 }
-
-// Destructor.
 MapViz::~MapViz()
 {
   delete manager_;
 }
+//MapViz::MapViz( QWidget* parent = 0, qnode::QNode* qnode ) :
+//    MapViz::MapViz( parent )
+//{
+//   setQNode(qnode);
+//}
+qnode::QNode *MapViz::qnode() const
+{
+    return qnode_;
+}
+
+void MapViz::setQNode(qnode::QNode *qnode)
+{
+    qnode_ = qnode;
+}
+rviz::VisualizationManager *MapViz::manager() const
+{
+    return manager_;
+}
+
+void MapViz::setManager(rviz::VisualizationManager *manager)
+{
+    manager_ = manager;
+}
+rviz::RenderPanel *MapViz::render_panel() const
+{
+    return render_panel_;
+}
+
+void MapViz::setRender_panel(rviz::RenderPanel *render_panel)
+{
+    render_panel_ = render_panel;
+}
+rviz::Display *MapViz::grid() const
+{
+    return grid_;
+}
+
+void MapViz::setGrid(rviz::Display *grid)
+{
+    grid_ = grid;
+}
+rviz::Display *MapViz::model() const
+{
+    return model_;
+}
+
+void MapViz::setModel(rviz::Display *model)
+{
+    model_ = model;
+}
+rtabmap_ros::MapGraphDisplay *MapViz::map() const
+{
+    return map_;
+}
+
+void MapViz::setMap(rtabmap_ros::MapGraphDisplay *map)
+{
+    map_ = map;
+}
+
+
+
+
+
+
+
+
 
 // This function is a Qt slot connected to a QSlider's valueChanged()
 // signal.  It sets the line thickness of the grid by changing the
