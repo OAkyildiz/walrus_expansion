@@ -27,16 +27,12 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <QSlider>
-#include <QLabel>
-#include <QGridLayout>
+
 #include <QVBoxLayout>
 
-#include "rviz/visualization_manager.h"
-#include "rviz/render_panel.h"
-#include "rviz/display.h"
-#include "../include/rtabmap_ros/rviz/MapGraphDisplay.h"
+
 #include "../include/walrus_widget/mapviz.h"
+
 
 // BEGIN_TUTORIAL
 // Constructor for MyViz.  This does most of the work of the class.

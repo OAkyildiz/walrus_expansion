@@ -30,6 +30,11 @@
 #define MAPVIZ_H
 
 #include <QWidget>
+#include "rviz/visualization_manager.h"
+#include "rviz/render_panel.h"
+#include "rviz/display.h"
+#include "../include/rtabmap_ros/rviz/MapGraphDisplay.h"
+#include "../include/walrus_widget/qnode.hpp"
 
 namespace rviz
 {
