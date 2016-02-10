@@ -149,13 +149,16 @@ def readDepth(cloudData):
     dataOut = pc2.read_points(cloudData, field_names=("x","y","z"), skip_nans=False)
     return dataOut
 if __name__ == '__main__':
-    # Change this node name to include your username
-    rospy.init_node('lab4')
+	#top of the file?
     global listener
     global joyX1
     global joyY1
     global pointCloud
     global cloudUsed
+    # Change this node name to include your username
+    rospy.init_node('obastacle_avoidance')
+    rate = rospy.Rate(10)
+    
     cloudUsed = False
     joyX1 = 0;
     joyY1 = 0;
@@ -164,11 +167,17 @@ if __name__ == '__main__':
     #map_sub = rospy.Subscriber("/map", OccupancyGrid, mapCallback)
     #joy_sub = rospy.Subscriber("/joy", Joy, joyCallback)
     pointCloud_sub = rospy.Subscriber("/camera/depth/points", PointCloud2, pointCloudCallback)
+	# boom/kinect/(qhd hd or sd)/points is the kince topic
+	# but it would be to parameterize so it can take the topic name from the launch file
+
 
     while pointCloud == None:
         time.sleep(.01)
     cloudUsed = True
     pointMap = PointMap(pointCloud, .1)
     obMap = pointMap.obstacleMap()
-    while True:
+    # 
+    while rospy.is_shutdown():
         publishGrid (arrayToGridCell(obMap, .1) , .1 ,'/walls')
+        rate.sleep()
+        

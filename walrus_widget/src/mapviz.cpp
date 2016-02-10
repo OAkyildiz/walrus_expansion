@@ -29,7 +29,7 @@
 
 
 #include <QVBoxLayout>
-
+#include <QSizePolicy>
 
 #include "../include/walrus_widget/mapviz.h"
 
@@ -44,7 +44,10 @@
 MapViz::MapViz( QWidget* parent, qnode::QNode* qnode )
   : QWidget( parent )
 {
-  //setQNode(qnode);
+
+  setQNode(qnode);
+
+  setSizePolicy(QSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored));
   // Construct and lay out render panel.
   render_panel_ = new rviz::RenderPanel();
   QVBoxLayout* main_layout = new QVBoxLayout;
@@ -72,8 +75,8 @@ MapViz::MapViz( QWidget* parent, qnode::QNode* qnode )
   // Configure the GridDisplay the way we like it.
   grid_->subProp( "Line Style" )->setValue( "Billboards" );
   grid_->subProp( "Color" )->setValue( Qt::yellow );
-  manager_->setFixedFrame("walrus/base_link");
-  grid_->setFixedFrame("walrus/base_link");
+  manager_->setFixedFrame("walrus/base_footprint");
+  grid_->setFixedFrame("walrus/base_odom");
 
 
 

@@ -1,44 +1,17 @@
 /*
- * Copyright (c) 2012, Willow Garage, Inc.
- * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
  *
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Willow Garage, Inc. nor the names of its
- *       contributors may be used to endorse or promote products derived from
- *       this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
-
-// BEGIN_TUTORIAL
-
-// The main() for this "myviz" example is very simple, it just
-// initializes ROS, creates a QApplication, creates the top-level
-// widget (of type "MyViz"), shows it, and runs the Qt event loop.
-
-#include <stdlib.h>     /* getenv */
-#include <QApplication>
+ * /
 #include <ros/ros.h>
+#include <stdlib.h>     /* getenv */
+
+#include <QApplication>
 #include <QWidget>
 #include <QGLWidget>
 #include <QtOpenGL>
+#include <QVBoxLayout>
+
 #include "../include/walrus_widget/glextensions.h"
 #include "../include/walrus_widget/mainview.h"
 #include "../include/walrus_widget/qnode.hpp"
@@ -160,13 +133,20 @@ int main(int argc, char **argv)
   /* Init RosNode*/
   qnode::QNode* qnode = new qnode::QNode(argc,argv);
   qnode->init(getenv("ROS_MASTER_URI"),getenv("ROS_HOSTNAME"));
-  QWidget* widget = new QWidget();
 
-  MapViz* scene3d_ = new MapViz(widget,qnode);
-  //Overlay* indicators_=new Overlay(widget);
+
+  QWidget* widget = new QWidget();
+  widget->setWindowState(widget->windowState() ^ Qt::WindowFullScreen);
+
+  MapViz* scene3d_ = new MapViz(0,qnode);
+
+  QVBoxLayout* main_layout = new QVBoxLayout;
+  main_layout->addWidget( scene3d_ );
+  widget->setLayout( main_layout );
+  Overlay* indicators_=new Overlay();
   //indicators_->setAttribute(Qt::WA_TranslucentBackground);
   //scene3d_->grid_;
-  widget->setWindowState(widget->windowState() ^ Qt::WindowFullScreen);
+  //widget->makeCurrent(scene3d_);
   widget->show();
 
 
