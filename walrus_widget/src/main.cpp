@@ -166,7 +166,6 @@ int main(int argc, char **argv)
   //Overlay* indicators_=new Overlay(widget);
   //indicators_->setAttribute(Qt::WA_TranslucentBackground);
   //scene3d_->grid_;
-
   widget->setWindowState(widget->windowState() ^ Qt::WindowFullScreen);
   widget->show();
 

@@ -65,13 +65,16 @@ MapViz::MapViz( QWidget* parent, qnode::QNode* qnode )
 
   map_ = new rtabmap_ros::MapGraphDisplay();
   manager_->addDisplay(map_,true);
+  
+  
   ROS_ASSERT( model_ != NULL );
+  
   // Configure the GridDisplay the way we like it.
   grid_->subProp( "Line Style" )->setValue( "Billboards" );
   grid_->subProp( "Color" )->setValue( Qt::yellow );
-  grid_->setFixedFrame("walrus/odom");
+  manager_->setFixedFrame("walrus/base_link");
+  grid_->setFixedFrame("walrus/base_link");
 
-  model_->subProp( "Tf Prefix")->setValue("walrus/");
 
 
   // Initialize the slider values.
