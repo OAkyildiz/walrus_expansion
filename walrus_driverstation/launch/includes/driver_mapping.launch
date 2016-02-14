@@ -3,11 +3,26 @@
 
   	<arg name="throttle_ns" 	default="boom"/> 
     <arg name="device" 		default="kinect"/>
-    <arg name="rviz" 		default="false"/>
-	<include file="$(find walrus_driverstation)/launch/includes/rtabmap/rtabmap.launch.xml">
-		<arg name="rgb_topic" 			value="/$(arg throttle_ns)/throttled/image"/>
-		<arg name="depth_topic" 		value="/$(arg throttle_ns)/throttled/image_depth"/>
-		<arg name="camera_info_topic" 	value="/$(arg throttle_ns)/throttled/camera_info"/>
+    
+    <arg name="station_map"	default="false" /> <!-- mapping or just viz?-->
+    
+    <arg name="gui"			default="true"/> <!-- Launch GUI-->
+    
+    
+	<!-- RViz? -->    
+    <arg if="$(arg gui)" 		name="rviz" 		value="false"/>
+	<arg unless="$(arg gui)" 	name="rviz" 		value="true"/>
+	<arg name="rviz_cfg"                default="-d $(find walrus_driverstation)/rviz/remote_mapping.rviz" />
+	
+   	<!-- Image topics -->
+    <arg name="rgb_topic" 			default="$(arg throttle_ns)/throttled/image"/>
+	<arg name="depth_topic" 		default="$(arg throttle_ns)/throttled/image_depth"/>
+	<arg name="camera_info_topic" 	default="$(arg throttle_ns)/throttled/camera_info"/>
+	
+	<include if="$(arg station_map)" file="$(find walrus_driverstation)/launch/includes/rtabmap/rtabmap.launch.xml">
+		<arg name="rgb_topic" 			value="$(arg rgb_topic)"/>
+		<arg name="depth_topic" 		value="$(arg depth_topic)"/>
+		<arg name="camera_info_topic" 	value="/$(arg camera_info_topic)"/>
 		
 		<arg name="compressed"			value="true"/>
 		<arg name="rtabmap_args" 		value="--delete_db_on_start"/>
@@ -17,7 +32,23 @@
 		
 		<arg name="rviz" 				value="$(arg rviz)" />
  		<arg name="rtabmapviz" 			value="false" /> 
- 		<arg name="rviz_cfg"            value="-d $(find walrus_driverstation)/rviz/remote_mapping.rviz" />
+ 		<arg name="rviz_cfg"            value="$(arg rviz_cfg)" />
 	</include>
 	
+	<group unless="$(arg station_map)">
+		<node if="$(arg rviz)" pkg="rviz" type="rviz" name="rviz" args="$(arg rviz_cfg)"/>
+		<node if="$(arg rviz)" pkg="nodelet" type="nodelet" name="points_xyzrgb" args="standalone rtabmap_ros/point_cloud_xyzrgb">
+	 
+			<remap from="rgb/image"  		to="$(arg rgb_topic)"/>
+			<remap from="rgb/image" 		to="$(arg depth_topic)"/>
+			<remap from="rgb/camera_info" 	to="$(arg camera_info_topic)"/>
+			<remap from="cloud"			to="voxel_cloud" />
+
+			<param name="rgb/image_transport" 	type="string" 	value="theora"/>
+			<param name="depth/image_transport" type="string" 	value="compressedDepth"/>
+
+			<param name="queue_size"		type="int" 		value="10"/>
+			<param name="voxel_size" 		type="double" 	value="0.01"/>
+	  	</node>
+	</group>
 </launch>

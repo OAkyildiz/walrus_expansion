@@ -1,28 +1,37 @@
+<!-- Launch file for driverstation of WALRUS Rover -->
+
 <launch>
 <!-- Args -->
 
 <arg name="payload"		default="boom"/> <!-- I mean, we don't have the Oryx anymore-->
-<arg name="gui"			default="true"/> <!-- Launch GUI-->
-<arg name="robot_viz" 	default="false" /> <!-- Map: local  Viz: local	#Nothing is recieved-->
-<arg name="station_viz" 	default="false" /> <!-- Map: local	Viz: remote #MapData is sent-->
-<arg name="station_map"	default="false" /> <!-- Map: remote Viz: remote #Images are sent-->
 
+<arg name="robot_viz" 	default="false" /> <!-- Map: local  Viz: local	#Nothing is recieved-->
+
+<arg name="station_map"		default="true" /> <!-- Map: remote Viz: remote #Images are sent-->
+<arg name="station_viz" 	default="true" /> <!-- Map: local	Viz: remote #MapData is sent-->
+<!--arg if="$(arg station_map)" 	name="station_viz" 	value="true" /-->
+
+<arg name="gui"			default="true"/> <!-- Launch GUI-->
+
+
+
+<!-- Station map has it's own rviz launch config-->
 
 	<group ns="driverstation">
-	
-    	<!--GUI node-->
-		<node name="walrus_widget" pkg="walrus_widget" type="widget" output="screen" respawn="true" if="$(arg gui)">
-	
-		</node>
-
-		<!--Rtabmap-->
-		<include if="$(arg station_map)" file="$(find walrus_driverstation)/launch/includes/driver_mapping.launch" >
-			<arg if="$(arg gui)" 		name="rviz" 		default="false"/>
-	        <arg unless="$(arg gui)" 	name="rviz" 		default="true"/>
-	        <arg name="throttle_ns" 	default="boom"/> 
+		
+		<!--Rtabmap and rviz-->
+		<include if="$(arg station_viz)" file="$(find walrus_driverstation)/launch/includes/driver_mapping.launch" >
+			
+	        <arg name="throttle_ns" 	value="boom"/> 
+	        <arg name="gui"				value="$(arg gui)"/> <!-- Launch GUI-->
+	        <arg name="station_map"		value="$(arg station_map)" /> <!-- Map: remote Viz: remote #Images are sent-->
 		</include>
+		
+		<!--GUI node--> <!-- This might not work here inside ns for now-->
+		<node name="walrus_widget" pkg="walrus_widget" type="widget" output="screen" respawn="true" if="$(arg gui)">
+		<!-- Topic assignments here based on remote viz/map-->
+		</node>
+		
 	</group>
-
-
 
 </launch>
