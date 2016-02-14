@@ -1,0 +1,23 @@
+<launch>
+<!-- Args -->
+
+<arg name="gui"			default="true"/> <!-- Launch GUI-->
+<arg name="robot_viz" 	default="false" /> <!-- Map: local  Viz: local	#Nothing is recieved-->
+<arg name="station_viz" 	default="false" /> <!-- Map: local	Viz: remote #MapData is sent-->
+<arg name="station_map"	default="false" /> <!-- Map: remote Viz: remote #Images are sent-->
+
+
+	<group ns="driverstation">
+	
+    	<!--GUI node-->
+		<node name="walrus_widget" pkg="walrus_widget" type="widget" output="screen" respawn="true" if="$(arg gui)">
+	
+		</node>
+
+		<!--Rtabmap-->
+
+	</group>
+
+
+
+</launch>

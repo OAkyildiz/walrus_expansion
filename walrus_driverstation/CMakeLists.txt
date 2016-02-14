@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(walrus_bringup)
+project(walrus_driverstation)
 
 find_package(catkin REQUIRED)
 

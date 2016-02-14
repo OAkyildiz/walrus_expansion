@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package>
-  <name>walrus_bringup</name>
+  <name>walrus_driverstation</name>
   <version>0.0.0</version>
   <description>A collection of launch files for the WALRUS Driverstation</description>
 
