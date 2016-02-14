@@ -11,6 +11,8 @@
 #include <QGLWidget>
 #include <QtOpenGL>
 #include <QVBoxLayout>
+#include <QGraphicsView>
+#include <QGraphicsScene>
 
 #include "../include/walrus_widget/glextensions.h"
 #include "../include/walrus_widget/mainview.h"
@@ -125,7 +127,7 @@ int main(int argc, char **argv)
       "work poorly or not at all on your system.");
  */
 
- //GraphicsView view;
+  //GraphicsView view;
 
   // The current context must be set before calling Scene's constructor
   //void Qwidget:raise();
@@ -138,16 +140,43 @@ int main(int argc, char **argv)
   QWidget* widget = new QWidget();
   widget->setWindowState(widget->windowState() ^ Qt::WindowFullScreen);
 
-  MapViz* scene3d_ = new MapViz(0,qnode);
+  Overlay* indicators_=new Overlay();
+  MapViz* scene3d_ = new MapViz(widget,qnode);
+
+
+  QWidget* widjey = new QWidget(widget);
+
 
   QVBoxLayout* main_layout = new QVBoxLayout;
   main_layout->addWidget( scene3d_ );
   widget->setLayout( main_layout );
-  Overlay* indicators_=new Overlay();
+
+
+  widjey->raise();
+  widjey->resize(400,400);
+  //widjey->setWindowOpacity(0.25);
+
+
+
+
+  QPalette p = widjey->palette();
+  p.setColor( QPalette::Window, Qt::transparent );
+  widjey->setPalette( p );
+  widjey->update();
+
   //indicators_->setAttribute(Qt::WA_TranslucentBackground);
+
   //scene3d_->grid_;
-  //widget->makeCurrent(scene3d_);
-  widget->show();
+  //widget->makeCurrent(scene3d_);,
+  //widjey->makeCurrent(); // The current context must be set before calling Scene's constructor
+  QGraphicsScene* scene= new QGraphicsScene();
+  QGraphicsView* view;
+  view-> setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+  view->setViewport(widjey);
+  view->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+  view->setScene(scene);
+  view->showFullScreen();
+ // widget->show();
 
 
   // // view.setScene(&scene);

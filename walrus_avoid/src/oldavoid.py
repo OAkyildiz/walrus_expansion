@@ -1,35 +1,44 @@
 #!/usr/bin/env python
 import roslib
+from roslib import message #-
+
 import rospy, tf
 import math
 import time
+
 from PointMap import *
 from CloudIterator import *
-from kobuki_msgs.msg import BumperEvent
+
 #
 from geometry_msgs.msg import Twist
 from tf.transformations import euler_from_quaternion
 from math import degrees
-from nav_msgs.msg import Odometry
-from geometry_msgs.msg import Quaternion
-from geometry_msgs.msg import Pose2D
-from kobuki_msgs.msg import BumperEvent 
+
 # Add additional imports for each of the message types used
-from geometry_msgs.msg import PoseWithCovarianceStamped
-from geometry_msgs.msg import PointStamped
-from geometry_msgs.msg import Point
-from geometry_msgs.msg import PoseStamped
-from geometry_msgs.msg import PoseWithCovarianceStamped
-from sensor_msgs.msg import Joy
-from sensor_msgs.msg import LaserScan
-from sensor_msgs.msg import PointCloud2
+
+from nav_msgs.msg import Odometry
 from nav_msgs.msg import OccupancyGrid
 from nav_msgs.msg import MapMetaData
 from nav_msgs.msg import GridCells
+
+from geometry_msgs.msg import PoseWithCovarianceStamped
+from geometry_msgs.msg import PointStamped 
+from geometry_msgs.msg import Point #I belive PointStamped imports this
+from geometry_msgs.msg import Quaternion
+from geometry_msgs.msg import Pose2D
+
+from kobuki_msgs.msg import BumperEvent 
+
+
+from sensor_msgs.msg import Joy
+from sensor_msgs.msg import LaserScan
+from sensor_msgs.msg import PointCloud2
+import sensor_msgs.point_cloud2 as pc2 #repeat?
+
 from std_msgs.msg import Header
 from std_msgs.msg import Float64
-import sensor_msgs.point_cloud2 as pc2
-from roslib import message
+
+
 
 
 def checkLine(aMap, odm, angle, radius):
