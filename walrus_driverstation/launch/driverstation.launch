@@ -1,6 +1,7 @@
 <launch>
 <!-- Args -->
 
+<arg name="payload"		default="boom"/> <!-- I mean, we don't have the Oryx anymore-->
 <arg name="gui"			default="true"/> <!-- Launch GUI-->
 <arg name="robot_viz" 	default="false" /> <!-- Map: local  Viz: local	#Nothing is recieved-->
 <arg name="station_viz" 	default="false" /> <!-- Map: local	Viz: remote #MapData is sent-->
@@ -15,7 +16,11 @@
 		</node>
 
 		<!--Rtabmap-->
-
+		<include if="$(arg station_map)" file="$(find walrus_driverstation)/launch/includes/driver_mapping.launch" >
+			<arg if="$(arg gui)" 		name="rviz" 		default="false"/>
+	        <arg unless="$(arg gui)" 	name="rviz" 		default="true"/>
+	        <arg name="throttle_ns" 	default="boom"/> 
+		</include>
 	</group>
 
 
