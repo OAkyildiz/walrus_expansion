@@ -36,9 +36,6 @@
 #include "rviz/visualization_manager.h"
 #include "rviz/render_panel.h"
 #include "rviz/display.h"
-#include "rviz/config.h"
-#include "rviz/yaml_config_reader.h"
-
 #include "../include/rtabmap_ros/rviz/MapGraphDisplay.h"
 
 
@@ -61,24 +58,9 @@ MapViz::MapViz( QWidget* parent, qnode::QNode* qnode )
 
   manager_ = new rviz::VisualizationManager( render_panel_ );
   render_panel_->initialize( manager_->getSceneManager(), manager_ );
-
   manager_->initialize();
   manager_->startUpdate();
 
-
-  //TODO:Take these into a class
-  std::string file = "remote_mapping.rviz";
-  const QString qfile = QString::fromStdString(file);
-  //create the config
-
-  config_reader_ = new rviz::YamlConfigReader();
-
-  //config to transfer
-  rviz::Config* aconfig = new rviz::Config();
-  config_reader_->readFile(*aconfig,qfile);
-
-  config_ = aconfig;
-  manager_->load(*config_);
   // Create a Grid display.
   grid_ = manager_->createDisplay( "rviz/Grid", "adjustable grid", true );
   //TODO: make walrus_model class

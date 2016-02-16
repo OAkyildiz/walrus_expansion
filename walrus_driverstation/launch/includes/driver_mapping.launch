@@ -4,7 +4,7 @@
   	<arg name="throttle_ns" 	default="boom"/> 
     <arg name="device" 		default="kinect"/>
     
-    <arg name="station_map"	default="true" /> <!-- mapping or just viz?-->
+    <arg name="station_map"	default="false" /> <!-- mapping or just viz?-->
     
     <arg name="gui"			default="true"/> <!-- Launch GUI-->
     

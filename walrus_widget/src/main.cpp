@@ -169,14 +169,14 @@ int main(int argc, char **argv)
   //scene3d_->grid_;
   //widget->makeCurrent(scene3d_);,
   //widjey->makeCurrent(); // The current context must be set before calling Scene's constructor
-//  QGraphicsScene* scene= new QGraphicsScene();
-//  QGraphicsView* view;
-//  view-> setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
-//  view->setViewport(widjey);
-//  view->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
-//  view->setScene(scene);
-//  view->showFullScreen();
-  widget->show();
+  QGraphicsScene* scene= new QGraphicsScene();
+  QGraphicsView* view;
+  view-> setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+  view->setViewport(widjey);
+  view->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+  view->setScene(scene);
+  view->showFullScreen();
+ // widget->show();
 
 
   // // view.setScene(&scene);

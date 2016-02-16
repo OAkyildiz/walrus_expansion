@@ -38,8 +38,6 @@ namespace rviz
 class Display;
 class RenderPanel;
 class VisualizationManager;
-class Config;
-class YamlConfigReader;
 
 }
 namespace rtabmap_ros
@@ -86,13 +84,10 @@ private:
   qnode::QNode* qnode_;
   rviz::VisualizationManager* manager_;
   rviz::RenderPanel* render_panel_;
-  const rviz::Config* config_;
-  rviz::YamlConfigReader* config_reader_;
-
   rviz::Display* grid_;
   rviz::Display* model_;
   rtabmap_ros::MapGraphDisplay* map_;
-  //TODO:: Encapsulate render panel elements rviz::RenderPanel*<-fancyname
+  //TO DO:: Encapsulate render panel elements rviz::RenderPanel*<-fancyname
 };
 // END_TUTORIAL
 #endif // MAPVIZ_H

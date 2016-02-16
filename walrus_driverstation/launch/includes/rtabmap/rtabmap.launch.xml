@@ -53,8 +53,8 @@
   <group ns="$(arg namespace)">
   
     <!-- RGB-D Odometry -->
-      <node if="$(arg compressed)" name="republish_rgb" type="republish" pkg="image_transport" args="$(arg rgb_image_transport) in:=/$(arg rgb_topic) raw out:=$(arg rgb_topic_relay)" />
-      <node if="$(arg compressed)" name="republish_depth" type="republish" pkg="image_transport" args="compressedDepth in:=/$(arg depth_topic) raw out:=$(arg depth_topic_relay)" />
+      <node if="$(arg compressed)" name="republish_rgb" type="republish" pkg="image_transport" args="$(arg rgb_image_transport) in:=$(arg rgb_topic) raw out:=$(arg rgb_topic_relay)" />
+      <node if="$(arg compressed)" name="republish_depth" type="republish" pkg="image_transport" args="compressedDepth in:=$(arg depth_topic) raw out:=$(arg depth_topic_relay)" />
   
     
   
