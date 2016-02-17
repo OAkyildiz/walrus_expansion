@@ -38,11 +38,13 @@ namespace rviz
 class Display;
 class RenderPanel;
 class VisualizationManager;
+class Config;
+class YamlConfigReader;
 
 }
 namespace rtabmap_ros
 {
-class MapGraphDisplay;
+class MapCloudDisplay;
 }
 
 // BEGIN_TUTORIAL
@@ -73,8 +75,8 @@ public:
   rviz::Display *model() const;
   void setModel(rviz::Display *model);
 
-  rtabmap_ros::MapGraphDisplay *map() const;
-  void setMap(rtabmap_ros::MapGraphDisplay *map);
+  rtabmap_ros::MapCloudDisplay *map() const;
+  void setMap(rtabmap_ros::MapCloudDisplay *map);
 
 private Q_SLOTS:
   //void setThickness( int thickness_percent );
@@ -84,9 +86,16 @@ private:
   qnode::QNode* qnode_;
   rviz::VisualizationManager* manager_;
   rviz::RenderPanel* render_panel_;
+
+  rviz::Config* config_;
+  rviz::YamlConfigReader* config_reader_;
+
   rviz::Display* grid_;
   rviz::Display* model_;
-  rtabmap_ros::MapGraphDisplay* map_;
+
+  rviz::Display* cloud_;
+  rtabmap_ros::MapCloudDisplay* map_;
+
   //TO DO:: Encapsulate render panel elements rviz::RenderPanel*<-fancyname
 };
 // END_TUTORIAL

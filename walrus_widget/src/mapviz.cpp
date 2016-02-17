@@ -36,7 +36,12 @@
 #include "rviz/visualization_manager.h"
 #include "rviz/render_panel.h"
 #include "rviz/display.h"
-#include "../include/rtabmap_ros/rviz/MapGraphDisplay.h"
+#include "rviz/yaml_config_reader.h"
+#include "rviz/config.h"
+
+
+
+#include "../include/rtabmap_ros/rviz/MapCloudDisplay.h"
 
 
 // BEGIN_TUTORIAL
@@ -56,17 +61,25 @@ MapViz::MapViz( QWidget* parent, qnode::QNode* qnode )
   setLayout( main_layout );
 
 
+
+  rviz::Config* aconfig = new rviz::Config();
+  //config_reader_->readFile(*aconfig,"remote_mapping.rviz");
+
+  //config_ = aconfig;
+  //manager_->load(*config_);
+
   manager_ = new rviz::VisualizationManager( render_panel_ );
   render_panel_->initialize( manager_->getSceneManager(), manager_ );
   manager_->initialize();
   manager_->startUpdate();
 
-  // Create a Grid display.
+  // Create a Grid display.   //TODO: make walrus_model class
+
   grid_ = manager_->createDisplay( "rviz/Grid", "adjustable grid", true );
-  //TODO: make walrus_model class
   model_ = manager_->createDisplay( "rviz/RobotModel", "robot_model", true );
 
-  map_ = new rtabmap_ros::MapGraphDisplay();
+  cloud_= manager_->createDisplay("rviz/PointCloud2", "voxel_cloud", true);
+  map_ = new rtabmap_ros::MapCloudDisplay();
   manager_->addDisplay(map_,true);
   
   
@@ -75,10 +88,17 @@ MapViz::MapViz( QWidget* parent, qnode::QNode* qnode )
   // Configure the GridDisplay the way we like it.
   grid_->subProp( "Line Style" )->setValue( "Billboards" );
   grid_->subProp( "Color" )->setValue( Qt::yellow );
-  manager_->setFixedFrame("walrus/base_footprint");
-  grid_->setFixedFrame("walrus/base_odom");
+  grid_->subProp( "Reference Frame" )->setValue("walrus/base_footprint");
 
+  cloud_->subProp( "Topic" )->setValue("/voxel_cloud");
+  cloud_->subProp( "Queue Size" )->setValue("10");
+  cloud_->subProp( "Size (m)" )->setValue("0.01");
 
+  map_->subProp( "Topic" )->setValue("/rtabmap/mapData");
+  map_->subProp( "Queue Size" )->setValue("10");
+  //manager_->setFixedFrame("walrus/base_footprint");
+
+  manager_->startUpdate();
 
   // Initialize the slider values.
   //thickness_slider->setValue( 25 );
@@ -138,12 +158,12 @@ void MapViz::setModel(rviz::Display *model)
 {
     model_ = model;
 }
-rtabmap_ros::MapGraphDisplay *MapViz::map() const
+rtabmap_ros::MapCloudDisplay *MapViz::map() const
 {
     return map_;
 }
 
-void MapViz::setMap(rtabmap_ros::MapGraphDisplay *map)
+void MapViz::setMap(rtabmap_ros::MapCloudDisplay *map)
 {
     map_ = map;
 }

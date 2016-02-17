@@ -16,25 +16,29 @@ cmake_minimum_required(VERSION 2.8.3)
 
 project(walrus_widget)
 find_package(catkin REQUIRED COMPONENTS rviz roscpp rtabmap_ros)
+find_package(RTABMap 0.10.10 REQUIRED)
+find_package(Qt4 COMPONENTS QtCore QtGui QtOpenGL QtDesigner REQUIRED )
+
 #find_package(OpenGL REQUIRED)
 #find_package(GLUT REQUIRED)
 
 
 catkin_package()
-include_directories(${catkin_INCLUDE_DIRS}  
+include_directories(${catkin_INCLUDE_DIRS}
+${RTABMap_INCLUDE_DIRS}
 #${GLUT_INCLUDE_DIRS} 
 #${OpenGL_INCLUDE_DIRS}
 ${PROJECT_BINARY_DIR}
 include)
 
-link_directories(${catkin_LIBRARY_DIRS} 
+link_directories(${catkin_LIBRARY_DIRS}
+${RTABMap_INCLUDE_DIRS}
 #${GLUT_LIBRARY_DIRS}  
 #${OpenGL_LIBRARY_DIRS}
  )
 
 
 ## This plugin includes Qt widgets, so we must include Qt like so:
-find_package(Qt4 COMPONENTS QtCore QtGui QtOpenGL QtDesigner REQUIRED )
 SET(QT_USE_QTOPENGL TRUE)
 
 include(${QT_USE_FILE})
@@ -89,7 +93,8 @@ add_executable(widget ${CPP_FILES} ${MOC_FILES} ${MOC_UI} )
 ## Link the myviz executable with whatever Qt libraries have been defined by
 ## the ``find_package(Qt4 ...)`` line above, and with whatever libraries
 ## catkin has included.
-target_link_libraries(widget ${QT_LIBRARIES} 
+target_link_libraries(widget ${QT_LIBRARIES}
+${RTABMap_LIBRARIES}
 #${GLUT_LIBRARIES} 
 #${OPENGL_LIBRARIES} 
 ${catkin_LIBRARIES}
