@@ -32,11 +32,12 @@ from kobuki_msgs.msg import BumperEvent
 
 from sensor_msgs.msg import Joy
 from sensor_msgs.msg import LaserScan
-from sensor_msgs.msg import PointCloud2
 import sensor_msgs.point_cloud2 as pc2 #repeat?
 
 from std_msgs.msg import Header
 from std_msgs.msg import Float64
+
+
 
 
 
@@ -113,9 +114,11 @@ def scanCallback(data):
 def pointCloudCallback(data):
     global pointCloud
     global cloudUsed
-    if cloudUsed == False:
-        coudUsed = True
-        pointCloud = CloudIterator(readDepth(data), data.width * data.height)
+    while cloudUsed == True:
+        time.sleep(.01)
+    coudUsed = True
+    pointCloud = CloudIterator(readDepth(data), data.width * data.height)
+    cloudUsed = False
         
     
     
@@ -143,14 +146,15 @@ def publishGrid (nodeList, rez, where):
     gridCell.header.frame_id = "map"
     gridCell.cells = nodeList
     pub.publish(gridCell)
-def arrayToGridCell(array, rez):
+def arrayToGridCell(array, rez, xOffset, yOffset):
     gridcells = []
+    #roboPos = getMapPose()
     for x in range(len(array)):
         for y in range(len(array[0])):
-            if(array[x][y] == True):
+            if(array[x][y] != 0):
                 point = Point()
-                point.x = x * rez
-                point.y = y * rez
+                point.x = (x * rez -xOffset)
+                point.y = (y * rez - yOffset)
                 point.z = 0
                 gridcells.append(point)
     return gridcells
@@ -160,33 +164,29 @@ def readDepth(cloudData):
 if __name__ == '__main__':
 	#top of the file?
     global listener
-    global joyX1
-    global joyY1
     global pointCloud
     global cloudUsed
-    # Change this node name to include your username
-    rospy.init_node('obastacle_avoidance')
-    rate = rospy.Rate(10)
-    
     cloudUsed = False
-    joyX1 = 0;
-    joyY1 = 0;
     pointCloud = None
     listener = tf.TransformListener()
-    #map_sub = rospy.Subscriber("/map", OccupancyGrid, mapCallback)
-    #joy_sub = rospy.Subscriber("/joy", Joy, joyCallback)
+    rospy.init_node('obastacle_avoidance')
+    rate = rospy.Rate(10)
+    pointCloud = None
+    listener = tf.TransformListener()
+
     pointCloud_sub = rospy.Subscriber("/camera/depth/points", PointCloud2, pointCloudCallback)
 	# boom/kinect/(qhd hd or sd)/points is the kince topic
 	# but it would be to parameterize so it can take the topic name from the launch file
 
-
     while pointCloud == None:
         time.sleep(.01)
-    cloudUsed = True
-    pointMap = PointMap(pointCloud, .1)
-    obMap = pointMap.obstacleMap()
-    # 
-    while rospy.is_shutdown():
-        publishGrid (arrayToGridCell(obMap, .1) , .1 ,'/walls')
-        rate.sleep()
+    while True:
+        while cloudUsed == True:
+            time.sleep(.01)
+        coudUsed = True
+        pointMap = PointMap(pointCloud, .1)
+        obMap = pointMap.obstacleMap()
+        publishGrid (arrayToGridCell(obMap, .1, -1, -1) , .1 ,'/obstacleAvoidance/obstacleMap')
+        #publishGrid (arrayToGridCell([[0],[0],[0],[0],[0],[0],[0],[0],[0],[1],[1],[0],[0],[0],[0],[0],[0],[0],[0],[0]], .1), .2, '/robot')
+        coudUsed = False
         
