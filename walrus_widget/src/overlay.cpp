@@ -6,7 +6,6 @@ Overlay::Overlay(QWidget *parent) :
     ui(new Ui::Overlay)
 {
     ui->setupUi(this);
-    this->setAttribute(Qt::WA_TranslucentBackground);
 }
 
 Overlay::~Overlay()

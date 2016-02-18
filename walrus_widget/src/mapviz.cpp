@@ -62,11 +62,11 @@ MapViz::MapViz( QWidget* parent, qnode::QNode* qnode )
 
 
 
-  rviz::Config* aconfig = new rviz::Config();
-  //config_reader_->readFile(*aconfig,"remote_mapping.rviz");
+//  rviz::Config* aconfig = new rviz::Config();
+//  config_reader_->readFile(*aconfig,"remote_mapping.rviz");
 
-  //config_ = aconfig;
-  //manager_->load(*config_);
+//  config_ = aconfig;
+//  manager_->load(*config_);
 
   manager_ = new rviz::VisualizationManager( render_panel_ );
   render_panel_->initialize( manager_->getSceneManager(), manager_ );
@@ -81,24 +81,24 @@ MapViz::MapViz( QWidget* parent, qnode::QNode* qnode )
   cloud_= manager_->createDisplay("rviz/PointCloud2", "voxel_cloud", true);
   map_ = new rtabmap_ros::MapCloudDisplay();
   manager_->addDisplay(map_,true);
+  manager_->setFixedFrame("walrus/base_footprint");
   
-  
+  grid_->setFixedFrame("walrus/base_footprint");
+
   ROS_ASSERT( model_ != NULL );
   
   // Configure the GridDisplay the way we like it.
   grid_->subProp( "Line Style" )->setValue( "Billboards" );
   grid_->subProp( "Color" )->setValue( Qt::yellow );
-  grid_->subProp( "Reference Frame" )->setValue("walrus/base_footprint");
 
   cloud_->subProp( "Topic" )->setValue("/voxel_cloud");
   cloud_->subProp( "Queue Size" )->setValue("10");
   cloud_->subProp( "Size (m)" )->setValue("0.01");
 
   map_->subProp( "Topic" )->setValue("/rtabmap/mapData");
-  map_->subProp( "Queue Size" )->setValue("10");
-  //manager_->setFixedFrame("walrus/base_footprint");
+  //map_->subProp( "Queue Size" )->setValue("10");
 
-  manager_->startUpdate();
+
 
   // Initialize the slider values.
   //thickness_slider->setValue( 25 );

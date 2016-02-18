@@ -7,7 +7,7 @@
 
 
 MainView::MainView(QWidget *parent) :
-    QMainWindow(parent)
+    QGLWidget(parent)
 {
     scene3d_ = new MapViz();
     //indicators_=new Overlay();
@@ -15,8 +15,7 @@ MainView::MainView(QWidget *parent) :
 //    indicators_->setAttribute(Qt::WA_TranslucentBackground);
 
     QVBoxLayout* main_layout = new QVBoxLayout;
-    setCentralWidget( scene3d_);
-//    main_layout->addWidget( scene3d_ );
+    main_layout->addWidget( scene3d_ );
 //    setLayout( main_layout );
 }
 

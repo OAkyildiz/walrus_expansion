@@ -20,7 +20,7 @@
 	<group ns="driverstation">
 		
 		<!--Rtabmap and rviz-->
-		<include if="$(arg station_viz)" file="$(find walrus_driverstation)/launch/includes/driver_mapping.launch" >
+		<include if="$(arg station_viz)" file="$(find walrus_driverstation)/launch/includes/station_mapping.launch" >
 			
 	        <arg name="throttle_ns" 	value="boom"/> 
 	        <arg name="gui"				value="$(arg gui)"/> <!-- Launch GUI-->

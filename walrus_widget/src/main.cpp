@@ -13,68 +13,13 @@
 #include <QVBoxLayout>
 #include <QGraphicsView>
 #include <QGraphicsScene>
+//#include <QPainter>
+//#include <QFrame>
 
 #include "../include/walrus_widget/glextensions.h"
 #include "../include/walrus_widget/mainview.h"
 #include "../include/walrus_widget/qnode.hpp"
 
-/* GraphicsView checks
-
-
-class GraphicsView : public QGraphicsView
-{
-public:
-    GraphicsView()
-    {
-        setWindowTitle(tr("Walrus DriveStation 0.0.5"));
-        setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
-        //setRenderHints(QPainter::SmoothPixmapTransform);
-    }
-
-protected:
-    void resizeEvent(QResizeEvent *event) {
-        if (scene())
-            scene()->setSceneRect(QRect(QPoint(0, 0), event->size()));
-        QGraphicsView::resizeEvent(event);
-    }
-};
-
-inline bool matchString(const char *extensionString, const char *subString)
-{
-    int subStringLength = strlen(subString);
-    return (strncmp(extensionString, subString, subStringLength) == 0)
-        && ((extensionString[subStringLength] == ' ') || (extensionString[subStringLength] == '\0'));
-}
-
-bool necessaryExtensionsSupported()
-{
-    const char *extensionString = reinterpret_cast<const char *>(glGetString(GL_EXTENSIONS));
-    const char *p = extensionString;
-
-    const int GL_EXT_FBO = 1;
-    const int GL_ARB_VS = 2;
-    const int GL_ARB_FS = 4;
-    const int GL_ARB_SO = 8;
-    int extensions = 0;
-
-    while (*p) {
-        if (matchString(p, "GL_EXT_framebuffer_object"))
-            extensions |= GL_EXT_FBO;
-        else if (matchString(p, "GL_ARB_vertex_shader"))
-            extensions |= GL_ARB_VS;
-        else if (matchString(p, "GL_ARB_fragment_shader"))
-            extensions |= GL_ARB_FS;
-        else if (matchString(p, "GL_ARB_shader_objects"))
-            extensions |= GL_ARB_SO;
-        while ((*p != ' ') && (*p != '\0'))
-            ++p;
-        if (*p == ' ')
-            ++p;
-    }
-    return (extensions == 15);
-}
-
-*/
 
 
 int main(int argc, char **argv)
@@ -87,50 +32,8 @@ int main(int argc, char **argv)
   /* Init QApp*/    
   QApplication app( argc, argv );
 
-  /*
-  if ((QGLFormat::openGLVersionFlags() & QGLFormat::OpenGL_Version_1_5) == 0) {
-      QMessageBox::critical(0, "OpenGL features missing",
-          "OpenGL version 1.5 or higher is required to run this demo.\n"
-          "The program will now exit.");
-      return -1;
-  }
 
-  int maxTextureSize = 1024;
-  QGLWidget *widget = new QGLWidget(QGLFormat(QGL::SampleBuffers));
-  widget->makeCurrent();
 
-  if (!necessaryExtensionsSupported()) {
-      QMessageBox::critical(0, "OpenGL features missing",
-          "The OpenGL extensions required to run this demo are missing.\n"
-          "The program will now exit.");
-      delete widget;
-      return -2;
-  }
-  */
-
-  // Check if all the necessary functions are resolved.
-
-  /*
-   * if (!getGLExtensionFunctions().resolve(widget->context())) {
-      QMessageBox::critical(0, "OpenGL features missing",
-          "Failed to resolve OpenGL functions required to run this demo.\n"
-          "The program will now exit.");
-      delete widget;
-      return -3;
-    }
-   */
-
- /* welcome-warning dialog message(optional)
-    // TODO: Make conditional for final release
-  QMessageBox::information(0, "For your information",
-      "This demo can be GPU and CPU intensive and may\n"
-      "work poorly or not at all on your system.");
- */
-
-  //GraphicsView view;
-
-  // The current context must be set before calling Scene's constructor
-  //void Qwidget:raise();
 
   /* Init RosNode*/
   qnode::QNode* qnode = new qnode::QNode(argc,argv);
@@ -140,30 +43,64 @@ int main(int argc, char **argv)
   QWidget* widget = new QWidget();
   widget->setWindowState(widget->windowState() ^ Qt::WindowFullScreen);
 
-  Overlay* indicators_=new Overlay();
+
+  //widget->makeCurrent();
   MapViz* scene3d_ = new MapViz(widget,qnode);
 
-
-  QWidget* widjey = new QWidget(widget);
-
-
   QVBoxLayout* main_layout = new QVBoxLayout;
+  main_layout->setSpacing(0);
   main_layout->addWidget( scene3d_ );
   widget->setLayout( main_layout );
 
+  //widget->makeOverlayCurrent();
+  Overlay* indicators_=new Overlay();
 
-  widjey->raise();
-  widjey->resize(400,400);
-  //widjey->setWindowOpacity(0.25);
+  //widget->makeCurrent();
+
+//  indicators_->raise();
+//  QPalette p = indicators_->palette();
+//  p.setBrush(QPalette::Window, Qt::transparent);
+//  indicators_->setPalette(p);
+//  widget->makeCurrent();
+  ////  p.fillRect(rect(), QColor(80, 80, 255, 128));
+//  QVBoxLayout* over_layout = new QVBoxLayout;
+//  over_layout->setSpacing(0);
+//  over_layout->addWidget( indicators_ );
+//  indicators_->setLayout( over_layout );
+//    indicators_->setAttribute(Qt::WA_NoSystemBackground);
+
+//  main_layout->setMargin(0);
+//  main_layout->setContentsMargins(  0,0,0,0);
+
+//  widget->setLayout( main_layout );
 
 
 
+//  QWidget* widjey = new QWidget(widget);
 
-  QPalette p = widjey->palette();
-  p.setColor( QPalette::Window, Qt::transparent );
-  widjey->setPalette( p );
-  widjey->update();
+//  widjey->raise();
+//  widjey->resize(400,400);
+//  //widjey->setWindowOpacity(0.25);
+//  widjey->setAttribute(Qt::WA_NoSystemBackground);
+//  widjey->setAttribute(Qt::WA_TranslucentBackground);
 
+
+//  QFrame* framey = new QFrame();
+
+//  framey->raise();
+//  framey->resize(200,400);
+//  framey->setWindowOpacity(0.25);
+//  //framey->setAttribute(Qt::WA_NoSystemBackground);
+//  //framey->setAttribute(Qt::WA_TranslucentBackground);
+
+//  QPalette p = framey->palette();
+////  p.fillRect(rect(), QColor(80, 80, 255, 128));
+
+//  framey->setPalette( p );
+//  framey->update();
+  widget->update();
+
+  //graphey->setStyleSheet("background: transparent; border: none");
   //indicators_->setAttribute(Qt::WA_TranslucentBackground);
 
   //scene3d_->grid_;
@@ -177,7 +114,6 @@ int main(int argc, char **argv)
 //  view->setScene(scene);
 //  view->showFullScreen();
  widget->show();
-
 
   // // view.setScene(&scene);
 
