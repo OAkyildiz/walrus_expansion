@@ -28,7 +28,7 @@
 		</include>
 		
 		<!--GUI node--> <!-- This might not work here inside ns for now-->
-		<node name="walrus_widget" pkg="walrus_widget" type="widget" output="screen" respawn="true" if="$(arg gui)">
+		<node name="walrus_widget" pkg="walrus_widget" type="widget" output="screen" respawn="false" if="$(arg gui)">
 		<!-- Topic assignments here based on remote viz/map-->
 		</node>
 		
