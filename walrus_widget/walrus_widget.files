@@ -14,5 +14,6 @@ src/mapviz.cpp
 src/overlay.cpp
 src/qnode.cpp
 ui/overlay.ui
-CMakeLists.txt
+CMakeLists.txt.qt4
 package.xml
+CMakeLists.txt

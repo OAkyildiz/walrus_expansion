@@ -15,16 +15,9 @@ cmake_minimum_required(VERSION 2.8.3)
 #endif()
 
 project(walrus_widget)
-#Tell CMake to run moc when necessary:
-#set(CMAKE_AUTOMOC ON)
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
-
 find_package(catkin REQUIRED COMPONENTS rviz roscpp rtabmap_ros)
 find_package(RTABMap 0.10.10 REQUIRED)
-find_package(Qt5Widgets REQUIRED)
-find_package(Qt5Gui REQUIRED)
-find_package(Qt5Quick REQUIRED)
+find_package(Qt4 COMPONENTS QtCore QtGui QtOpenGL QtDesigner REQUIRED )
 
 #find_package(OpenGL REQUIRED)
 #find_package(GLUT REQUIRED)
@@ -32,34 +25,23 @@ find_package(Qt5Quick REQUIRED)
 
 catkin_package()
 include_directories(${catkin_INCLUDE_DIRS}
-    ${RTABMap_INCLUDE_DIRS}
-    ${Qt5Widgets_INCLUDES}
-    ${Qt5Gui_INCLUDES}
-    ${Qt5Quick_INCLUDES}
-    #${GLUT_INCLUDE_DIRS}
-    #${OpenGL_INCLUDE_DIRS}
-    ${PROJECT_BINARY_DIR}
-    include
-)
+${RTABMap_INCLUDE_DIRS}
+#${GLUT_INCLUDE_DIRS} 
+#${OpenGL_INCLUDE_DIRS}
+${PROJECT_BINARY_DIR}
+include)
 
-# We need add -DQT_WIDGETS_LIB when using QtWidgets in Qt 5.
-add_definitions(${Qt5Widgets_DEFINITIONS})
-
-link_directories(
-    ${catkin_LIBRARY_DIRS}
-    ${RTABMap_LIBRARIES}
-    ${Qt5Widgets_LIBRARIES}
-    ${Qt5Gui_LIBRARIES}
-    ${Qt5Quick_LIBRARIES}
-    #${GLUT_LIBRARY_DIRS}
-    #${OpenGL_LIBRARY_DIRS}
-)
+link_directories(${catkin_LIBRARY_DIRS}
+${RTABMap_INCLUDE_DIRS}
+#${GLUT_LIBRARY_DIRS}  
+#${OpenGL_LIBRARY_DIRS}
+ )
 
 
 ## This plugin includes Qt widgets, so we must include Qt like so:
 SET(QT_USE_QTOPENGL TRUE)
 
-##include(${QT_USE_FILE})
+include(${QT_USE_FILE})
 
 ## I prefer the Qt signals and slots to avoid defining "emit", "slots",
 ## etc because they can conflict with boost signals, so define QT_NO_KEYWORDS here.
@@ -76,11 +58,11 @@ link_directories( ${OGRE_LIBRARY_DIRS} )
 ## the previous command which is stored in ``${MOC_FILES}``.
 
 
-file(GLOB UI_FILES
+file(GLOB UI_FILES  
   ui/*.ui
 )
 
-file(GLOB RES_FILES
+file(GLOB RES_FILES  
   resources/*.qrc
 )
 
@@ -92,7 +74,7 @@ file(GLOB HDR_FILES
 )
 list(REMOVE_ITEM HDR_FILES "include/walrus_widget/scene.h")
 
-file(GLOB CPP_FILES
+file(GLOB CPP_FILES   
   src/*.cpp
 )
 list(REMOVE_ITEM CPP_FILES "src/scene.cpp")
@@ -100,34 +82,27 @@ list(REMOVE_ITEM CPP_FILES "src/scene.cpp")
 ## Add the "myviz" executable and specify the list of source files we
 ## collected above in ``${SRC_FILES}``.
 
-#qt5_add_resources(MOC_RES ${RES_FILES})
-qt5_wrap_ui(MOC_UI
-    ${UI_FILES}
-)
+#qt4_add_resources(MOC_RES ${RES_FILES})
+qt4_wrap_ui(MOC_UI ${UI_FILES})
 
-qt5_wrap_cpp(MOC_FILES
+qt4_wrap_cpp(MOC_FILES
   ${HDR_FILES}
 )
 ##
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
+#qt4_wrap_ui
+#qt4_add_resources
 
 add_executable(widget ${CPP_FILES} ${MOC_FILES} ${MOC_UI} )
 
 ## Link the myviz executable with whatever Qt libraries have been defined by
 ## the ``find_package(Qt4 ...)`` line above, and with whatever libraries
 ## catkin has included.
-target_link_libraries(widget
-    #${QT_LIBRARIES}
-    ${RTABMap_LIBRARIES}
-    #${GLUT_LIBRARIES}
-    #${OPENGL_LIBRARIES}
-    ${OGRE_LIBRARIES}
-    ${catkin_LIBRARIES}
-    Qt5::Widgets
-    Qt5::Gui
-    Qt5::Quick
-
+target_link_libraries(widget ${QT_LIBRARIES}
+${RTABMap_LIBRARIES}
+#${GLUT_LIBRARIES} 
+#${OPENGL_LIBRARIES}
+${OGRE_LIBRARIES}
+${catkin_LIBRARIES}
  )
 ## END_TUTORIAL
 

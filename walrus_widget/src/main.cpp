@@ -8,12 +8,12 @@
 
 #include <QApplication>
 #include <QWidget>
-#include <QGLWidget>
+#include <QOpenGLWidget>
 #include <QtOpenGL>
 #include <QVBoxLayout>
 #include <QGraphicsView>
 #include <QGraphicsScene>
-//#include <QPainter>
+#include <QPainter>
 //#include <QFrame>
 
 #include "../include/walrus_widget/glextensions.h"
@@ -40,11 +40,11 @@ int main(int argc, char **argv)
   qnode->init(getenv("ROS_MASTER_URI"),getenv("ROS_HOSTNAME"));
 
 
-  QWidget* widget = new QWidget();
+  QOpenGLWidget* widget = new QOpenGLWidget();
   widget->setWindowState(widget->windowState() ^ Qt::WindowFullScreen);
 
 
-  //widget->makeCurrent();
+  widget->makeCurrent();
   MapViz* scene3d_ = new MapViz(widget,qnode);
 
   QVBoxLayout* main_layout = new QVBoxLayout;
@@ -52,7 +52,7 @@ int main(int argc, char **argv)
   main_layout->addWidget( scene3d_ );
   widget->setLayout( main_layout );
 
-  //widget->makeOverlayCurrent();
+  widget->makeOverlayCurrent();
   Overlay* indicators_=new Overlay();
 
   //widget->makeCurrent();

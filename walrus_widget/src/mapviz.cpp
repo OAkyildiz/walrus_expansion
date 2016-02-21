@@ -98,6 +98,7 @@ MapViz::MapViz( QWidget* parent, qnode::QNode* qnode )
   map_->subProp( "Topic" )->setValue("/rtabmap/mapData");
   //map_->subProp( "Queue Size" )->setValue("10");
 
+  manager_->startUpdate();
 
 
   // Initialize the slider values.
