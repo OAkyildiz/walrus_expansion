@@ -42,7 +42,7 @@
 #ifndef GLEXTENSIONS_H
 #define GLEXTENSIONS_H
 
-#include <QtOpenGL>
+#include <QtGui>
 
 /*
 Functions resolved:

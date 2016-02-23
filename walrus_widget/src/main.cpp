@@ -9,7 +9,7 @@
 #include <QApplication>
 #include <QWidget>
 #include <QOpenGLWidget>
-#include <QtOpenGL>
+//#include <QtOpenGL>
 #include <QVBoxLayout>
 #include <QGraphicsView>
 #include <QGraphicsScene>
@@ -52,7 +52,7 @@ int main(int argc, char **argv)
   main_layout->addWidget( scene3d_ );
   widget->setLayout( main_layout );
 
-  widget->makeOverlayCurrent();
+//  widget->makeOverlayCurrent();
   Overlay* indicators_=new Overlay();
 
   //widget->makeCurrent();

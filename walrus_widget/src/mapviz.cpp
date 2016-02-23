@@ -89,7 +89,7 @@ MapViz::MapViz( QWidget* parent, qnode::QNode* qnode )
   
   // Configure the GridDisplay the way we like it.
   grid_->subProp( "Line Style" )->setValue( "Billboards" );
-  grid_->subProp( "Color" )->setValue( Qt::yellow );
+  grid_->subProp( "Color" )->setValue( QColor(Qt::yellow) );
 
   cloud_->subProp( "Topic" )->setValue("/voxel_cloud");
   cloud_->subProp( "Queue Size" )->setValue("10");
