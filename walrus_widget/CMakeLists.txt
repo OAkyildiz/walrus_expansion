@@ -19,12 +19,12 @@ project(walrus_widget)
 #set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-
+set(qversion 5.5.1)
 find_package(catkin REQUIRED COMPONENTS rviz roscpp rtabmap_ros)
 find_package(RTABMap 0.10.10 REQUIRED)
-find_package(Qt5Widgets REQUIRED)
-find_package(Qt5Gui REQUIRED)
-find_package(Qt5Quick REQUIRED)
+find_package(Qt5Widgets ${qversion} REQUIRED)
+find_package(Qt5Gui ${qversion} REQUIRED)
+find_package(Qt5Quick ${qversion} REQUIRED)
 
 #find_package(OpenGL REQUIRED)
 #find_package(GLUT REQUIRED)
@@ -44,6 +44,9 @@ include_directories(${catkin_INCLUDE_DIRS}
 
 # We need add -DQT_WIDGETS_LIB when using QtWidgets in Qt 5.
 add_definitions(${Qt5Widgets_DEFINITIONS})
+add_definitions(${Qt5Widgets_DEFINITIONS})
+add_definitions(${Qt5Gui_DEFINITIONS})
+add_definitions(${Qt5Quick_DEFINITIONS})
 
 link_directories(
     ${catkin_LIBRARY_DIRS}
@@ -90,12 +93,20 @@ file(GLOB HDR_FILES
   /*.h
   /*.hpp
 )
-list(REMOVE_ITEM HDR_FILES "include/walrus_widget/scene.h")
+list(REMOVE_ITEM HDR_FILES "include/walrus_widget/scene.h"
+    "include/rtabmap_ros/rviz/InfoDisplay.h"
+    "include/rtabmap_ros/rviz/MapCloudDisplay.h"
+    "include/rtabmap_ros/rviz/MapGraphDisplay.h"
+    "include/rtabmap_ros/rviz/OrbitOrientedView.h")
 
 file(GLOB CPP_FILES
   src/*.cpp
 )
-list(REMOVE_ITEM CPP_FILES "src/scene.cpp")
+list(REMOVE_ITEM CPP_FILES "src/scene.cpp"
+        "src/rtabmap_ros/rviz/InfoDisplay.h"
+        "src/rtabmap_ros/rviz/MapCloudDisplay.h"
+        "src/rtabmap_ros/rviz/MapGraphDisplay.h"
+        "src/rtabmap_ros/rviz/OrbitOrientedView.h")
 
 ## Add the "myviz" executable and specify the list of source files we
 ## collected above in ``${SRC_FILES}``.

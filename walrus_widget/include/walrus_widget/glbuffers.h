@@ -45,8 +45,7 @@
 //#include <GL/glew.h>
 #include "glextensions.h"
 
-#include <QWidget>
-#include <QtOpenGL>
+#include <QtWidgets>
 
 #define BUFFER_OFFSET(i) ((char*)0 + (i))
 #define SIZE_OF_MEMBER(cls, member) sizeof(static_cast<cls *>(0)->member)

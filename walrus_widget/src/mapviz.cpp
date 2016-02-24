@@ -39,9 +39,7 @@
 #include "rviz/yaml_config_reader.h"
 #include "rviz/config.h"
 
-
-
-#include "../include/rtabmap_ros/rviz/MapCloudDisplay.h"
+//#include "../include/rtabmap_ros/rviz/MapCloudDisplay.h"
 
 
 // BEGIN_TUTORIAL
@@ -79,8 +77,8 @@ MapViz::MapViz( QWidget* parent, qnode::QNode* qnode )
   model_ = manager_->createDisplay( "rviz/RobotModel", "robot_model", true );
 
   cloud_= manager_->createDisplay("rviz/PointCloud2", "voxel_cloud", true);
-  map_ = new rtabmap_ros::MapCloudDisplay();
-  manager_->addDisplay(map_,true);
+  //map_ = new rtabmap_ros::MapCloudDisplay();
+  //manager_->addDisplay(map_,true);
   manager_->setFixedFrame("walrus/base_footprint");
   
   grid_->setFixedFrame("walrus/base_footprint");
@@ -95,7 +93,7 @@ MapViz::MapViz( QWidget* parent, qnode::QNode* qnode )
   cloud_->subProp( "Queue Size" )->setValue("10");
   cloud_->subProp( "Size (m)" )->setValue("0.01");
 
-  map_->subProp( "Topic" )->setValue("/rtabmap/mapData");
+  //map_->subProp( "Topic" )->setValue("/rtabmap/mapData");
   //map_->subProp( "Queue Size" )->setValue("10");
 
   manager_->startUpdate();
@@ -159,15 +157,15 @@ void MapViz::setModel(rviz::Display *model)
 {
     model_ = model;
 }
-rtabmap_ros::MapCloudDisplay *MapViz::map() const
-{
-    return map_;
-}
+//rtabmap_ros::MapCloudDisplay *MapViz::map() const
+//{
+//    return map_;
+//}
 
-void MapViz::setMap(rtabmap_ros::MapCloudDisplay *map)
-{
-    map_ = map;
-}
+//void MapViz::setMap(rtabmap_ros::MapCloudDisplay *map)
+//{
+//    map_ = map;
+//}
 
 
 

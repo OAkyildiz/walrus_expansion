@@ -29,7 +29,7 @@
 #ifndef MAPVIZ_H
 #define MAPVIZ_H
 
-#include <QWidget>
+#include <QtWidgets>
 #include "../include/walrus_widget/qnode.hpp"
 
 
@@ -42,10 +42,10 @@ class Config;
 class YamlConfigReader;
 
 }
-namespace rtabmap_ros
-{
-class MapCloudDisplay;
-}
+//namespace rtabmap_ros
+//{
+//class MapCloudDisplay;
+//}
 
 // BEGIN_TUTORIAL
 // Class "MyViz" implements the top level widget for this example.
@@ -75,8 +75,8 @@ public:
   rviz::Display *model() const;
   void setModel(rviz::Display *model);
 
-  rtabmap_ros::MapCloudDisplay *map() const;
-  void setMap(rtabmap_ros::MapCloudDisplay *map);
+//  rtabmap_ros::MapCloudDisplay *map() const;
+//  void setMap(rtabmap_ros::MapCloudDisplay *map);
 
 private Q_SLOTS:
   //void setThickness( int thickness_percent );
@@ -94,7 +94,7 @@ private:
   rviz::Display* model_;
 
   rviz::Display* cloud_;
-  rtabmap_ros::MapCloudDisplay* map_;
+  //rtabmap_ros::MapCloudDisplay* map_;
 
   //TO DO:: Encapsulate render panel elements rviz::RenderPanel*<-fancyname
 };

@@ -4,7 +4,7 @@
 #include <QOpenGLWidget>
 
 #include "../include/walrus_widget/mapviz.h"
-#include "../include/walrus_widget/overlay.h"
+//#include "../include/walrus_widget/overlay.h"
 class MainView : public QOpenGLWidget
 {
     Q_OBJECT
@@ -19,7 +19,7 @@ public Q_SLOTS:
 
 private:
     MapViz* scene3d_;
-    Overlay* indicators_;
+    //Overlay* indicators_;
 
 };
 
