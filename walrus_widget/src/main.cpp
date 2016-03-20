@@ -10,71 +10,89 @@
 #include <QOpenGLWidget>
 //#include <QtOpenGL>
 #include <QVBoxLayout>
-//#include <QGraphicsView>
-//#include <QGraphicsScene>
+#include <QSizePolicy>
+#include <QGraphicsView>
+#include <QGraphicsScene>
 //#include <QPainter>
 //#include <QFrame>
 
-#include "../include/walrus_widget/glextensions.h"
-#include "../include/walrus_widget/mainview.h"
-#include "../include/walrus_widget/qnode.hpp"
-#include "../include/walrus_widget/mapviz.h"
+#include "walrus_widget/glextensions.h"
+#include "walrus_widget/mainview.h"
+#include "walrus_widget/qnode.h"
+#include "walrus_widget/mapviz.h"
+#include "walrus_widget/overlay.h"
+#include "walrus_widget/styles.h"
 
 
+//TODO: Put widget attributes to static in description
 
 int main(int argc, char **argv)
 {
 
   /* Init QApp*/    
   QApplication app( argc, argv );
+  app.setStyleSheet(Styles::style1);
   /* Init RosNode*/
   qnode::QNode* qnode = new qnode::QNode(argc,argv);
   qnode->init(getenv("ROS_MASTER_URI"),getenv("ROS_HOSTNAME"));
   /*Main Widget*/
-  QOpenGLWidget* widget = new QOpenGLWidget();
-  widget->setWindowState(widget->windowState() ^ Qt::WindowFullScreen);
+  QWidget* widget = new QWidget();
+  //widget->setWindowState(widget->windowState() ^ Qt::WindowFullScreen);
 
-  //widget->makeCurrent();
-  MapViz* scene3d_ = new MapViz(widget,qnode);
+  CameraDisplay* cam = new CameraDisplay(widget);
+  cam->resize(800,600);
+  QObject::connect(qnode,SIGNAL(Update_Image( QImage*)),cam,SLOT(updateImage( QImage*)));
+ //    QObject::connect(qnode, SIGNAL(rosShutdown()), this, SLOT(close()));
 
-  QVBoxLayout* main_layout = new QVBoxLayout;
-  main_layout->setSpacing(0);
-  main_layout->addWidget( scene3d_ );
-  widget->setLayout( main_layout );
+//  MapViz* scene3d_ = new MapViz(0,qnode);
 
-  //widget->makeOverlayCurrent();
- // Overlay* indicators_=new Overlay();
 
-//  indicators_->raise();
-//  QPalette p = indicators_->palette();
-//  p.setBrush(QPalette::Window, Qt::transparent);
-//  indicators_->setPalette(p);
-//  widget->makeCurrent();
-//  QVBoxLayout* over_layout = new QVBoxLayout;
-//  over_layout->setSpacing(0);
-//  over_layout->addWidget( indicators_ );
-//  //indicators_->setLayout( over_layout );
-//  indicators_->setAttribute(Qt::WA_NoSystemBackground);
+//  QImage* test_image = new QImage("/home/oakyildiz/mqp_2016_ws/src/walrus_xp/walrus_widget/resources/images/mire800.jpg");
 
-//  QWidget* widjey = new QWidget(widget);
 
-//  widjey->raise();
-//  widjey->resize(400,400);
-//  //widjey->setWindowOpacity(0.25);
-//  widjey->setAttribute(Qt::WA_NoSystemBackground);
-//  widjey->setAttribute(Qt::WA_TranslucentBackground);
 
-//  QFrame* framey = new QFrame();
-//  QPalette p = framey->palette();
+//  QLabel*  background = new QLabel(widget);
+//  background->setPixmap(test_image);
+//  background->move(200,200);
+//  Overlay* gui = new Overlay(widget);
+//  gui->resize(1920,1080);
+//  QGraphicsScene scene;
 
-//  framey->setPalette( p );
-//  framey->update();
-  widget->update();
+//  QGraphicsProxyWidget *proxy = scene.addWidget(gui);
+//  //scene.addWidget(gui);
 
-  //graphey->setStyleSheet("background: transparent; border: none");
-  //widget->makeCurrent(scene3d_);,
+//  QGraphicsView view(&scene,widget);
+//  view.setStyleSheet("background: transparent");
+
+
+//  view.show();
+
+//  gui->setWindowState(widget->windowState() ^ Qt::WindowFullScreen);
+//  gui->setAutoFillBackground(false);
+//  QPixmap pixmap = gui->grab();
+//  gui->setMask(pixmap.createHeuristicMask());
 
   widget->show();
+//  gui->show();
+
+  //gui->setWindowFlags (Qt::FramelessWindowHint);
+
+//  QVBoxLayout* main_layout = new QVBoxLayout;
+//  main_layout->setSpacing(0);
+//  main_layout->addWidget( scene3d_ );
+//  widget->setLayout( main_layout );
+
+  //widget->makeOverlayCurrent();
+//  Overlay* indicators_=new Overlay(widget);
+
+
+//  widget->update();
+//  scene3d_->update();
+
+//  //graphey->setStyleSheet("background: transparent; border: none");
+//  //widget->makeCurrent(scene3d_);,
+
+//  widget->show();
 
   // // view.setScene(&scene);
 

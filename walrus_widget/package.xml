@@ -14,19 +14,24 @@
 
   <build_depend>roscpp</build_depend>
   <build_depend>rviz</build_depend>
-  <build_depend>rtabmap</build_depend>
+  <!--build_depend>rtabmap</build_depend-->
   <build_depend>OpenGL</build_depend>
   <build_depend>glut</build_depend>
   <build_depend>libxmu-dev</build_depend>
   <build_depend>libxi-dev</build_depend>
-  
+  <build_depend>image_transport</build_depend>
+  <build_depend>cv_bridge</build_depend>
+
   <run_depend>roscpp</run_depend>
   <run_depend>rviz</run_depend>
-  <run_depend>rtabmap</run_depend>
+  <run_depend>nodelet</run_depend>
+  <!--run_depend>rtabmap</run_depend-->
   <run_depend>OpenGL</run_depend>
   <run_depend>glut</run_depend>
   <run_depend>libxmu-dev</run_depend>
   <run_depend>libxi-dev</run_depend>
+  <run_depend>image_transport</run_depend>
+  <run_depend>cv_bridge</run_depend>
 
   <export>
       <rosdoc config="${prefix}/rosdoc.yaml"/>

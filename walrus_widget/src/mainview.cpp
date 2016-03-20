@@ -1,4 +1,4 @@
-#include "../include/walrus_widget/mainview.h"
+#include "walrus_widget/mainview.h"
 
 
 #include <QMessageBox>

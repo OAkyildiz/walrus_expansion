@@ -31,13 +31,15 @@
 #include <QVBoxLayout>
 #include <QSizePolicy>
 
-#include "../include/walrus_widget/mapviz.h"
+
+#include "walrus_widget/mapviz.h"
 
 #include "rviz/visualization_manager.h"
 #include "rviz/render_panel.h"
 #include "rviz/display.h"
 #include "rviz/yaml_config_reader.h"
 #include "rviz/config.h"
+#include "walrus_widget/overlay.h"
 
 //#include "../include/rtabmap_ros/rviz/MapCloudDisplay.h"
 
@@ -69,7 +71,9 @@ MapViz::MapViz( QWidget* parent, qnode::QNode* qnode )
   manager_ = new rviz::VisualizationManager( render_panel_ );
   render_panel_->initialize( manager_->getSceneManager(), manager_ );
   manager_->initialize();
+  manager_->unlockRender();
   manager_->startUpdate();
+
 
   // Create a Grid display.   //TODO: make walrus_model class
 
@@ -96,12 +100,12 @@ MapViz::MapViz( QWidget* parent, qnode::QNode* qnode )
   //map_->subProp( "Topic" )->setValue("/rtabmap/mapData");
   //map_->subProp( "Queue Size" )->setValue("10");
 
-  manager_->startUpdate();
+  //manager_->startUpdate();
 
+  setSizePolicy(QSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored));
+  resize(1920,1080);
+  updateGeometry();
 
-  // Initialize the slider values.
-  //thickness_slider->setValue( 25 );
- // cell_size_slider->setValue( 10 );
 }
 MapViz::~MapViz()
 {

@@ -30,7 +30,8 @@
 #define MAPVIZ_H
 
 #include <QtWidgets>
-#include "../include/walrus_widget/qnode.hpp"
+#include <QWidget>
+#include "qnode.h"
 
 
 namespace rviz
@@ -54,10 +55,10 @@ class MapViz: public QWidget
 Q_OBJECT
 public:
 //  Mapviz( QWidget* parent = 0);
-  MapViz( QWidget* parent = 0, qnode::QNode* qnode = 0 );
+  MapViz(QWidget* parent = 0, qnode::QNode* qnode = 0 );
 
 
-  //move to Q_SLOTS?
+  //move to Q_Q_SLOTS?
   virtual ~MapViz();
 
   qnode::QNode *qnode() const;

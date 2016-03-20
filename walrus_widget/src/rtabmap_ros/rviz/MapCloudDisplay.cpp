@@ -495,17 +495,17 @@ void MapCloudDisplay::downloadMap()
 
 			QTimer::singleShot(1000, messageBox, SLOT(close()));
 		}
-		download_map_->blockSignals(true);
+		download_map_->blockq_signals(true);
 		download_map_->setBool(false);
-		download_map_->blockSignals(false);
+		download_map_->blockq_signals(false);
 	}
 	else
 	{
 		// just stay true if double-clicked on DownloadMap property, let the
 		// first process above finishes
-		download_map_->blockSignals(true);
+		download_map_->blockq_signals(true);
 		download_map_->setBool(true);
-		download_map_->blockSignals(false);
+		download_map_->blockq_signals(false);
 	}
 }
 
@@ -550,17 +550,17 @@ void MapCloudDisplay::downloadGraph()
 
 			QTimer::singleShot(1000, messageBox, SLOT(close()));
 		}
-		download_graph_->blockSignals(true);
+		download_graph_->blockq_signals(true);
 		download_graph_->setBool(false);
-		download_graph_->blockSignals(false);
+		download_graph_->blockq_signals(false);
 	}
 	else
 	{
 		// just stay true if double-clicked on DownloadGraph property, let the
 		// first process above finishes
-		download_graph_->blockSignals(true);
+		download_graph_->blockq_signals(true);
 		download_graph_->setBool(true);
-		download_graph_->blockSignals(false);
+		download_graph_->blockq_signals(false);
 	}
 }
 

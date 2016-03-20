@@ -1,4 +1,3 @@
-## BEGIN_TUTORIAL
 ## This CMakeLists.txt file for rviz_plugin_tutorials builds both the TeleopPanel tutorial and the ImuDisplay tutorial.
 ##
 ## First start with some standard catkin stuff.
@@ -20,7 +19,11 @@ project(walrus_widget)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(qversion 5.5.1)
-find_package(catkin REQUIRED COMPONENTS rviz roscpp rtabmap_ros)
+find_package(catkin REQUIRED COMPONENTS
+roscpp rviz image_transport cv_bridge
+#rtabmap_ros 
+diagnostic_msgs nav_msgs visualization_msgs)
+
 find_package(RTABMap 0.10.10 REQUIRED)
 find_package(Qt5Widgets ${qversion} REQUIRED)
 find_package(Qt5Gui ${qversion} REQUIRED)
@@ -41,6 +44,13 @@ include_directories(${catkin_INCLUDE_DIRS}
     ${PROJECT_BINARY_DIR}
     include
 )
+
+#catkin_package
+catkin_package(
+   INCLUDE_DIRS include
+   LIBRARIES ${PROJECT_NAME}
+   CATKIN_DEPENDS nodelet rviz roscpp
+   DEPENDS eigen opencv)
 
 # We need add -DQT_WIDGETS_LIB when using QtWidgets in Qt 5.
 add_definitions(${Qt5Widgets_DEFINITIONS})
@@ -91,8 +101,10 @@ file(GLOB HDR_FILES
   include/*/*.hpp
   include/*/*.h
   /*.h
-  /*.hpp
+  /*.
 )
+#message(STATUS "${HDR_FILES}")
+
 list(REMOVE_ITEM HDR_FILES "include/walrus_widget/scene.h"
     "include/rtabmap_ros/rviz/InfoDisplay.h"
     "include/rtabmap_ros/rviz/MapCloudDisplay.h"
@@ -111,15 +123,13 @@ list(REMOVE_ITEM CPP_FILES "src/scene.cpp"
 ## Add the "myviz" executable and specify the list of source files we
 ## collected above in ``${SRC_FILES}``.
 
-#qt5_add_resources(MOC_RES ${RES_FILES})
-qt5_wrap_ui(MOC_UI
-    ${UI_FILES}
-)
+#
+#qt5_add_resources(MOC_RES   ${RES_FILES})
+qt5_wrap_ui(MOC_UI ${UI_FILES})
 
-qt5_wrap_cpp(MOC_FILES
-  ${HDR_FILES}
-)
+qt5_wrap_cpp(MOC_FILES ${HDR_FILES})
 ##
+
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
@@ -140,7 +150,20 @@ target_link_libraries(widget
     Qt5::Quick
 
  )
-## END_TUTORIAL
 
 ## Install
-install(TARGETS widget DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+#install(TARGETS widget DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
+#install(DIRECTORY include/${PROJECT_NAME}/
+#  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+#  FILES_MATCHING PATTERN "*.h"
+#  FILES_MATCHING PATTERN "*.hpp"
+
+#)
+
+#install(DIRECTORY launch
+#  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+#)
+#install(DIRECTORY config
+#  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+#)

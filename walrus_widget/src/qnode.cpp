@@ -10,11 +10,19 @@
 ** Includes
 *****************************************************************************/
 
-
 #include <ros/network.h>
 #include <sstream>
+#include <typeinfo>
 
-#include "../include/walrus_widget/qnode.hpp"
+#include <QElapsedTimer>
+
+#include "walrus_widget/qnode.h"
+
+#include <sensor_msgs/image_encodings.h>
+
+//#include <diagnostic_msgs/DiagnosticArray.h>
+//#include <diagnostic_msgs/DiagnosticStatus.h>
+//#include <diagnostic_msgs/KeyValue.h>
 
 /*****************************************************************************
 ** Namespaces
@@ -27,6 +35,7 @@ namespace qnode {
 *****************************************************************************/
 //TO DO: parameterize NodeHandel nh for qnode, so it is reachable
 //      -- This way ros::shutdown and start() can be changed to preferred methods.
+
     QNode::QNode(int argc, char** argv ) :
         init_argc(argc),
         init_argv(argv)
@@ -72,7 +81,7 @@ namespace qnode {
                 std::stringstream ss;
                 ss << "rosnode " << count;
                 msg.data = ss.str();
-                chatter_publisher.publish(msg);
+                console_pub_.publish(msg);
                 log(Info,std::string("I sent: ")+msg.data);
             }
             ros::spinOnce();
@@ -120,35 +129,141 @@ namespace qnode {
     }
 
     // Main ros node logic goes here
+    // seperating nodes is an option!!!
     void QNode::setupNode(){
         ros::start(); // explicitly needed since our nodehandle is going out of scope.
-        ros::NodeHandle diag_handle;
+        ros::NodeHandle handle;
         log(Info,std::string("Master:")+ros::master::getURI()+std::string(",\n Host:")+ros::network::getHost());
 
+        px_ = new QImage();
+        image_transport::ImageTransport it_(handle);
+
         // Add your ros communications here.
-        diagnostics_sub = diag_handle.subscribe("/diagnostics_agg", 1000, &QNode::diagnosticsCallback, this);
-        chatter_publisher = diag_handle.advertise<std_msgs::String>("chatter", 1000);
+        diagnostics_sub_ = handle.subscribe("/diagnostics_agg", 2000, &QNode::diagnosticsCallback, this);
+        odom_sub_ = handle.subscribe("/base_epos/drive_controller/odom", 1000, &QNode::odomCallback, this);
+        image_sub_ = it_.subscribe("/usb_cam/image_raw", 1, &QNode::cameraCallback, this
+                                   );
+        marker_pub_ = handle.advertise<visualization_msgs::Marker>("robot_marker", 1000);
+        console_pub_ = handle.advertise<std_msgs::String>("chatter", 1000);
+
+        initRobotMarker();
         start();
+
     }
 
     void QNode::diagnosticsCallback(const diagnostic_msgs::DiagnosticArray::ConstPtr& diag_msg)
     {
-        bool read = false;
-//        for (unsigned int j = 0; j < diag_msg->status.size(); ++j)
-//        {
-//          analyzed = false;
-//          diagnosticReport diagnostic_aggregator::item(new StatusItem(&diag_msg->status[j]));
-            //diagnostic_msgs::DiagnosticStatus* stat= &diag_msg->status[j];
-       log(Info,std::string("Diag received"));
+      // const std::vector<diagnostic_msgs::DiagnosticStatus_<std::allocator<void> >, std::allocator<diagnostic_msgs::DiagnosticStatus_<std::allocator<void> > > >*
+        const std::vector<diagnostic_msgs::DiagnosticStatus>  *stats;
 
 
-//          if (analyzer_group_->match(item->getName()))
-//            analyzed = analyzer_group_->analyze(item);
-
-//          if (!analyzed)
-//            other_analyzer_->analyze(item);
-//        }
+            for(int i=0;i<10;i++){
+                const diagnostic_msgs::DiagnosticStatus* stat= &diag_msg->status[i];
+                log(Info, stat->name + stat->hardware_id + stat->message);
+            }
     }
+
+    void QNode::odomCallback(const nav_msgs::Odometry::ConstPtr &odom_msg)
+    {
+
+        updateRobotMarker(&odom_msg->pose.pose);
+        marker_pub_.publish(*robot_marker_);
+    }
+
+    void QNode::initRobotMarker()
+    {
+        robot_marker_ = new visualization_msgs::Marker();
+
+        robot_marker_->header.frame_id = "walrus/base_footprint";
+        robot_marker_->header.stamp = ros::Time::now();
+
+        robot_marker_->ns = "radar";
+        robot_marker_->id = 0;
+        robot_marker_->type = visualization_msgs::Marker::TRIANGLE_LIST;
+        robot_marker_->action = visualization_msgs::Marker::ADD;
+
+        robot_marker_->pose = geometry_msgs::Pose();
+
+        geometry_msgs::Point p1= geometry_msgs::Point();
+        geometry_msgs::Point p2 = geometry_msgs::Point();
+        geometry_msgs::Point p3 = geometry_msgs::Point();
+
+        p1.x = 0.5;  p1.y = 0;      p1.z=0;
+        p2.x = 0;    p2.y = 0.2;    p2.z=0;
+        p3.x = 0;    p3.y = -0.2;   p3.z=0;
+
+        robot_marker_->points.push_back(p1);
+        robot_marker_->points.push_back(p2);
+        robot_marker_->points.push_back(p3);
+
+        robot_marker_->scale.x = 1;
+        robot_marker_->scale.y = 1;
+        robot_marker_->scale.z = 1;
+
+        robot_marker_->color.a = 1.0; // Don't forget to set the alpha!
+        robot_marker_->color.r = 0.9;
+        robot_marker_->color.g = 0.05;
+        robot_marker_->color.b = 0.05;
+    }
+
+
+    void QNode::updateRobotMarker(const geometry_msgs::Pose* pose)
+    {
+
+        robot_marker_->header.stamp = ros::Time::now();
+        robot_marker_->pose = *pose;
+
+        //rgba
+    }
+
+    //Camera stuff
+
+    QImage QNode::cvtCvMat2QImage(const cv::Mat &image)
+    {
+        QImage qtemp;
+        if(!image.empty() && image.depth() == CV_8U)
+        {
+            const unsigned char* data = image.data;
+            qtemp = QImage(image.cols, image.rows, QImage::Format_RGB32);
+            for(int y = 0; y < image.rows; ++y, data += image.cols*image.elemSize())
+            {
+                for(int x = 0; x < image.cols; ++x)
+                {
+                    QRgb* p = ((QRgb*)qtemp.scanLine (y)) + x;
+                    *p = qRgb(data[x * image.channels()+2], data[x * image.channels()+1], data[x * image.channels()]);
+                }
+            }
+        }
+        else if(!image.empty() && image.depth() != CV_8U)
+        {
+            printf("Wrong image format, must be 8_bits\n");
+        }
+
+        //rgba
+        return qtemp;
+    }
+    void QNode::cameraCallback(const sensor_msgs::ImageConstPtr& msg){
+
+    //(const std_msgs::String::ConstPtr &msg) {
+    //	ROS_INFO("I heard: [%s]", msg->data.c_str());
+        cv_bridge::CvImagePtr cv_ptr;
+          try
+            {
+              cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
+
+            }
+            catch (cv_bridge::Exception& e)
+            {
+              ROS_ERROR("cv_bridge exception: %s", e.what());
+              return;
+            }
+        *px_ = cvtCvMat2QImage(cv_ptr->image);
+
+        Q_EMIT Update_Image(px_);
+    }
+
+
+
 }  // namespace qnode
 
 

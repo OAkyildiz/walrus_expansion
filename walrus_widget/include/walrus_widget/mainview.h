@@ -3,7 +3,7 @@
 
 #include <QOpenGLWidget>
 
-#include "../include/walrus_widget/mapviz.h"
+#include "mapviz.h"
 //#include "../include/walrus_widget/overlay.h"
 class MainView : public QOpenGLWidget
 {
