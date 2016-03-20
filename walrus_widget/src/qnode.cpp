@@ -72,7 +72,7 @@ namespace qnode {
     }
 
     void QNode::run() {
-        ros::Rate loop_rate(1);
+        ros::Rate loop_rate(20);
         int count = 0;
         while ( ros::ok() ) {
 
@@ -240,6 +240,7 @@ namespace qnode {
         }
 
         //rgba
+
         return qtemp;
     }
     void QNode::cameraCallback(const sensor_msgs::ImageConstPtr& msg){
