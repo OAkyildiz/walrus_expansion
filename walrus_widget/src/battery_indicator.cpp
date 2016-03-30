@@ -56,3 +56,8 @@ void BatteryIndicator::resizeEvent(QResizeEvent *event)
 
    //setMask(maskedRegion);
 }
+
+void BatteryIndicator::batteryUpdated(double level)
+{
+    level_->setValue(level);
+}

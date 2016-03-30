@@ -1,4 +1,4 @@
-#include <QVBoxLayout>
+//#include <QVBoxLayout>
 
 
 #include "walrus_widget/radar.h"
@@ -8,18 +8,25 @@
 Radar::Radar(QWidget *parent, qnode::QNode* qnode)
     : QFrame( parent )
  {
-//TODO: Camera , constant top!
+//TODO: Camera , constant top! rviz::FixedOrientationOrthoViewController and manager
 
     qnode_ = qnode;
 
     //setSizePolicy(QSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored));
     // Construct and lay out render panel.
-    render_panel_ = new rviz::RenderPanel();
-    QVBoxLayout* main_layout = new QVBoxLayout;
+
+    bound_ = new QLabel(this);
+    bound_->setPixmap(QPixmap("/home/oakyildiz/mqp_2016_ws/src/walrus_xp/walrus_widget/resources/images/circle_bound.png"));
+    bound_->move(0,0);
+
+    render_panel_ = new rviz::RenderPanel(bound_);
+    render_panel_->move(0,0);
+
+    //QVBoxLayout* main_layout = new QVBoxLayout;
     //main_layout->addLayout( controls_layout );
-    main_layout->addWidget( render_panel_ );
-    main_layout->setSpacing(0);
-    setLayout( main_layout );
+    //main_layout->addWidget( render_panel_ );
+    //main_layout->setSpacing(0);
+    //setLayout( main_layout );
 
 
   //  rviz::Config* aconfig = new rviz::Config();
@@ -61,8 +68,16 @@ Radar::~Radar(){
 
 void Radar::resizeEvent(QResizeEvent * event)
 {
-    int side = qMin(width(), height())*0.9;
-    QRegion maskedRegion(width() / 2 - side / 2, height() / 2 - side / 2, side,
+    int side = qMin(width(), height());
+    QRegion maskedRegion(width() / 2 - side*0.95 / 2, height() / 2 - side*0.95 / 2, side*0.95,
+                         side*0.95, QRegion::Ellipse);
+
+    render_panel_->setMask(maskedRegion);
+    render_panel_->resize(size());
+
+    QRegion bound_maskedRegion(width() / 2 - side / 2, height() / 2 - side / 2, side,
                          side, QRegion::Ellipse);
-    setMask(maskedRegion);
+
+    bound_->resize(size());
+    bound_->setPixmap(bound_->pixmap()->scaled(size()));
 }

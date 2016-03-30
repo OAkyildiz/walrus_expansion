@@ -2,6 +2,8 @@
 #define RADAR_H
 
 #include <QFrame>
+#include <QLabel>
+
 #include "qnode.h"
 
 
@@ -32,6 +34,8 @@ private:
 
     rviz::VisualizationManager* manager_;
     rviz::RenderPanel* render_panel_;
+
+    QLabel* bound_;
 
     rviz::Display* grid_;
     rviz::Display* obstacles_;

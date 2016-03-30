@@ -13,6 +13,10 @@
 #include <ros/network.h>
 #include <sstream>
 #include <typeinfo>
+#include <vector>
+#include <fstream>
+
+
 
 #include <QElapsedTimer>
 
@@ -36,10 +40,17 @@ namespace qnode {
 //TO DO: parameterize NodeHandel nh for qnode, so it is reachable
 //      -- This way ros::shutdown and start() can be changed to preferred methods.
 
-    QNode::QNode(int argc, char** argv ) :
+    QNode::QNode(int argc, char** argv, bool verbose) :
         init_argc(argc),
         init_argv(argv)
-    {}
+    {
+        //qRegisterMetaType<std::string>();
+        defineCameras();
+        _first = false;
+        _verbose = verbose;
+
+
+    }
 
     QNode::~QNode() {
         if(ros::isStarted()) {
@@ -55,6 +66,7 @@ namespace qnode {
             return false;
         }
         setupNode();
+        defineCameras();
         return true;
     }
 
@@ -72,7 +84,7 @@ namespace qnode {
     }
 
     void QNode::run() {
-        ros::Rate loop_rate(20);
+        ros::Rate loop_rate(60);
         int count = 0;
         while ( ros::ok() ) {
 
@@ -136,38 +148,18 @@ namespace qnode {
         log(Info,std::string("Master:")+ros::master::getURI()+std::string(",\n Host:")+ros::network::getHost());
 
         px_ = new QImage();
-        image_transport::ImageTransport it_(handle);
+        it_ = new image_transport::ImageTransport(handle);
 
         // Add your ros communications here.
         diagnostics_sub_ = handle.subscribe("/diagnostics_agg", 2000, &QNode::diagnosticsCallback, this);
         odom_sub_ = handle.subscribe("/base_epos/drive_controller/odom", 1000, &QNode::odomCallback, this);
-        image_sub_ = it_.subscribe("/usb_cam/image_raw", 1, &QNode::cameraCallback, this
-                                   );
+
         marker_pub_ = handle.advertise<visualization_msgs::Marker>("robot_marker", 1000);
         console_pub_ = handle.advertise<std_msgs::String>("chatter", 1000);
 
         initRobotMarker();
         start();
 
-    }
-
-    void QNode::diagnosticsCallback(const diagnostic_msgs::DiagnosticArray::ConstPtr& diag_msg)
-    {
-      // const std::vector<diagnostic_msgs::DiagnosticStatus_<std::allocator<void> >, std::allocator<diagnostic_msgs::DiagnosticStatus_<std::allocator<void> > > >*
-        const std::vector<diagnostic_msgs::DiagnosticStatus>  *stats;
-
-
-            for(int i=0;i<10;i++){
-                const diagnostic_msgs::DiagnosticStatus* stat= &diag_msg->status[i];
-                log(Info, stat->name + stat->hardware_id + stat->message);
-            }
-    }
-
-    void QNode::odomCallback(const nav_msgs::Odometry::ConstPtr &odom_msg)
-    {
-
-        updateRobotMarker(&odom_msg->pose.pose);
-        marker_pub_.publish(*robot_marker_);
     }
 
     void QNode::initRobotMarker()
@@ -216,6 +208,74 @@ namespace qnode {
         //rgba
     }
 
+
+    void QNode::diagnosticsCallback(const diagnostic_msgs::DiagnosticArray::ConstPtr &diag_msg)
+    {
+       //const std::vector<diagnostic_msgs::DiagnosticStatus_<std::allocator<void> >, std::allocator<diagnostic_msgs::DiagnosticStatus_<std::allocator<void> > > >*
+         const std::vector<diagnostic_msgs::DiagnosticStatus> *status = &diag_msg->status;
+
+            std::vector<diagnostic_msgs::DiagnosticStatus>::const_iterator stat;
+            for(stat = status->begin(); stat != status->end(); ++stat) {
+               // const diagnostic_msgs::DiagnosticStatus* stat= &diag_msg->status[i];
+               std::string kv_string ="k-v:";
+               const std::vector<diagnostic_msgs::KeyValue> values = stat->values;
+
+               std::vector<diagnostic_msgs::KeyValue>::const_iterator keyval;
+               for(keyval = values.begin(); keyval != values.end(); ++keyval) {
+                   kv_string = kv_string + keyval->key+ ": " + keyval->value +"\n";
+               }
+                int index = stat-status->begin();
+                std::ostringstream s;
+                s << index;
+
+                int byte = stat->level;
+                std::ostringstream lvl;
+                lvl << byte;
+
+                std::string diag_block = s.str() + ".) Lv:"+ lvl.str() + "|" + stat->name /* + " (" + stat->hardware_id + "): " + stat->message + ".\n" + kv_string + "\n" */+  "\n";
+                if(_verbose)
+                    log(Info,diag_block);
+
+                if (_first){
+                //make this into a diagnostics record system
+                std::ofstream outfile;
+
+                outfile.open("gui_records/diag_names.txt", std::ios_base::app);
+                outfile << diag_block;
+                }
+
+
+
+            }
+            if(_verbose){
+                int size = status->end()-status->begin();
+
+                std::ostringstream l;
+                l << size + 0;
+
+                log(Info,"Diagnostic array size:" + l.str());
+                }
+            _first = false;
+    }
+
+    void QNode::odomCallback(const nav_msgs::Odometry::ConstPtr &odom_msg)
+    {
+        //make attr?
+        const geometry_msgs::Pose* pose = &odom_msg->pose.pose;
+
+        updateRobotMarker(pose);
+        marker_pub_.publish(*robot_marker_);
+
+        vel_ = &odom_msg->twist.twist.linear;
+        Q_EMIT Update_Speed(vel_->x, vel_->y , vel_->z);
+
+        Q_EMIT Update_Pose(pose->position.x, pose->position.y , pose->position.z,
+                            pose->orientation.x, pose->orientation.y , pose->orientation.z, pose->orientation.w);
+
+    }
+
+
+
     //Camera stuff
 
     QImage QNode::cvtCvMat2QImage(const cv::Mat &image)
@@ -261,6 +321,35 @@ namespace qnode {
         *px_ = cvtCvMat2QImage(cv_ptr->image);
 
         Q_EMIT Update_Image(px_);
+    }
+
+    void qnode::QNode::defineCameras()
+    {
+        cameras[1].title = QString("Front Camera");
+        cameras[1].topic = "front_camera/image_raw";
+        //cameras[1].topic = "front_camera/image_raw/compressed";
+
+
+        cameras[2].title = QString("Bottom Camera");
+        cameras[2].topic = "bottom_camera/image_raw";
+
+        cameras[3].title = QString("Rear Camera");
+        cameras[3].topic = "rear_camera/image_raw";
+
+        cameras[4].title = QString("Boom Camera");
+        cameras[4].topic = "boom/throttled/image";
+
+        cameras[0].title = QString("webcam");
+        cameras[0].topic = "usb_cam/image_raw";
+
+    }
+
+    void qnode::QNode::cameraTopicChanged(int i = 0)
+    {
+        int i_r=i%camera_count;
+        log(Info,cameras[i_r].topic + ": " + cameras[i_r].title.toStdString());
+        image_sub_ = it_->subscribe(cameras[i_r].topic, 1, &QNode::cameraCallback, this);
+        Q_EMIT Update_Video_Title(&cameras[i_r].title);
     }
 
 

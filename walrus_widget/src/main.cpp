@@ -19,7 +19,6 @@
 #include "walrus_widget/glextensions.h"
 #include "walrus_widget/mainview.h"
 #include "walrus_widget/qnode.h"
-#include "walrus_widget/mapviz.h"
 #include "walrus_widget/overlay.h"
 #include "walrus_widget/styles.h"
 
@@ -33,15 +32,15 @@ int main(int argc, char **argv)
   QApplication app( argc, argv );
   app.setStyleSheet(Styles::style1);
   /* Init RosNode*/
-  qnode::QNode* qnode = new qnode::QNode(argc,argv);
+  qnode::QNode* qnode = new qnode::QNode(argc,argv,false);
   qnode->init(getenv("ROS_MASTER_URI"),getenv("ROS_HOSTNAME"));
   /*Main Widget*/
   QWidget* widget = new QWidget();
-  //widget->setWindowState(widget->windowState() ^ Qt::WindowFullScreen);
+  widget->setWindowState(widget->windowState() ^ Qt::WindowFullScreen);
 
-  CameraDisplay* cam = new CameraDisplay(widget);
-  cam->resize(800,600);
-  QObject::connect(qnode,SIGNAL(Update_Image( QImage*)),cam,SLOT(updateImage( QImage*)));
+//  CameraDisplay* cam = new CameraDisplay(widget);
+//  cam->resize(800,600);
+//  QObject::connect(qnode,SIGNAL(Update_Image( QImage*)),cam,SLOT(updateImage( QImage*)));
  //    QObject::connect(qnode, SIGNAL(rosShutdown()), this, SLOT(close()));
 
 //  MapViz* scene3d_ = new MapViz(0,qnode);
@@ -54,8 +53,9 @@ int main(int argc, char **argv)
 //  QLabel*  background = new QLabel(widget);
 //  background->setPixmap(test_image);
 //  background->move(200,200);
-//  Overlay* gui = new Overlay(widget);
-//  gui->resize(1920,1080);
+  Overlay* gui = new Overlay(widget,qnode);
+  gui->resize(1920,1080);
+  gui->move(0,0);
 //  QGraphicsScene scene;
 
 //  QGraphicsProxyWidget *proxy = scene.addWidget(gui);
@@ -72,7 +72,7 @@ int main(int argc, char **argv)
 //  QPixmap pixmap = gui->grab();
 //  gui->setMask(pixmap.createHeuristicMask());
 
-  widget->show();
+//  widget->show();
 //  gui->show();
 
   //gui->setWindowFlags (Qt::FramelessWindowHint);
@@ -92,7 +92,7 @@ int main(int argc, char **argv)
 //  //graphey->setStyleSheet("background: transparent; border: none");
 //  //widget->makeCurrent(scene3d_);,
 
-//  widget->show();
+  widget->show();
 
   // // view.setScene(&scene);
 

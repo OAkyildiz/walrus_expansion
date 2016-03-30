@@ -4,51 +4,78 @@
 //#include<QElapsedTimer>
 
 
-CameraDisplay::CameraDisplay(QWidget *parent) : QWidget(parent) {
-  image_ = 0;
+CameraDisplay::CameraDisplay(QWidget *parent) :
+    QWidget(parent),
+    large_(false)
+{
+    image_ = 0;
 
-  setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-//  label_ = new QLabel("hi");
-//  label_->resize(40,100);
+    title_ = new QLabel("title",this);
+    title_->resize(120,15);
+    title_->move(2,2);
+    title_->setStyleSheet("QLabel { color : lightgray; }");
 
-//  label_->show();
-  //label_->move(20,605);
-  //image_ = new QImage(size(), QImage::Format_RGB32);
-  //setAutoFillBackground(false);
-  //setAttribute(Qt::WA_NoSystemBackground, true);
-  //setAttribute(Qt::WA_PaintOnScreen, true);
+
 }
 
 void CameraDisplay::updateImage(QImage *image) {
 
-//  QElapsedTimer tim = QElapsedTimer();
-//  tim.start();
-
   image_ = image;
-  //image_->setPixmap(QPixmap::fromImage(*image));
   repaint();
-
-//  int millis = tim.elapsed();
-//  label_->setText("a: " +QString::number(millis));
-
 
 }
 
 //void CameraDisplay::resizeEvent(QResizeEvent *event){
-////    image_->resize(size());
+//    image_->resize(size());
 //}
 
 void CameraDisplay::paintEvent(QPaintEvent *event) {
   if (!image_) { return; }
   QPainter painter(this);
 
-  //QElapsedTimer tim = QElapsedTimer();
-
-  //tim.start();
   painter.drawImage(rect(), *image_, image_->rect());
-  //label_->setText("a: " +QString::number(tim.elapsed()));
 
 }
 
+void CameraDisplay::updateVideoTitle(QString* title){
+  title_->setText(*title);
+
+}
+
+
+bool CameraDisplay::large() const
+{
+    return large_;
+}
+
+void CameraDisplay::setLarge(bool large)
+{
+    large_ = large;
+}
+
+/*QSize CameraDisplay::sizes(int i)
+//{
+//    if(sizes_.length()<i){
+//        return sizes_[i];
+//    }
+//    else
+//        return QSize(0,0);
+//}
+
+//boolean CameraDisplay::setSize(int i, QSize size)
+//{
+//    if(sizes_.length()<i){
+//        sizes_[i]=size;
+//    }
+//    else
+//        return false;
+//}
+
+//void CameraDisplay::addSize(QSize size)
+//{
+//    sizes_.push_back(size);
+//}
+*/
 

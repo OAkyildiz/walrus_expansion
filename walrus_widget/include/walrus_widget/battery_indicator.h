@@ -14,6 +14,7 @@ public:
 Q_SIGNALS:
 
 public Q_SLOTS:
+    void batteryUpdated(double level);
 
 protected:
     QLabel* icon_;

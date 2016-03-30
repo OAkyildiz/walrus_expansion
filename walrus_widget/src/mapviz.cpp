@@ -44,8 +44,7 @@
 //#include "../include/rtabmap_ros/rviz/MapCloudDisplay.h"
 
 
-// BEGIN_TUTORIAL
-// Constructor for MyViz.  This does most of the work of the class.
+// TODO: rviz::FPSViewController, rviz::ThirdPersonFollowerViewController to switch between 3rd person and first person
 MapViz::MapViz( QWidget* parent, qnode::QNode* qnode )
   : QWidget( parent )
 {

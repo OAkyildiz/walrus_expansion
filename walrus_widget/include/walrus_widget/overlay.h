@@ -13,8 +13,10 @@
 #include "radar.h"
 #include "qnode.h"
 #include "camera_display.h"
+#include "mapviz.h"
+#include "odometry_display.h"
 
-class Overlay : public QFrame
+class Overlay : public MapViz
 {
     Q_OBJECT
 
@@ -23,12 +25,14 @@ public:
     ~Overlay(){}
 
 private:
-    void loadWidgets(qnode::QNode* qnode);
-
+    void initWidgets();
+protected Q_SLOTS:
+    void toggleVideoSize();
 
 protected:
+    qnode::QNode*  qnode_;
 
-    QLCDNumber* speedometer_;
+    OdometryDisplay* tachometer_;
 
     Radar* radar_;
     CameraDisplay* cameras_;
@@ -41,6 +45,11 @@ protected:
 
     void resizeEvent(QResizeEvent *event);
 
+    int w;
+    int h;
+    int w_unit;
+    int h_unit;
+    int spacing;
 };
 
 
