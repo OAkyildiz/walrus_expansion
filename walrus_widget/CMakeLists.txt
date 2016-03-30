@@ -18,6 +18,7 @@ project(walrus_widget)
 find_package(catkin REQUIRED COMPONENTS rviz roscpp rtabmap_ros)
 find_package(RTABMap 0.10.10 REQUIRED)
 find_package(Qt4 COMPONENTS QtCore QtGui QtOpenGL QtDesigner REQUIRED )
+find_package(OpenCV REQUIRED core ocl)
 
 #find_package(OpenGL REQUIRED)
 #find_package(GLUT REQUIRED)
@@ -30,10 +31,12 @@ ${RTABMap_INCLUDE_DIRS}
 #${OpenGL_INCLUDE_DIRS}
 ${PROJECT_BINARY_DIR}
 ${QT_INCLUDES}
+${OpenCV_INCLUDE_DIRS}
 include)
 
 link_directories(${catkin_LIBRARY_DIRS}
-${RTABMap_INCLUDE_DIRS}
+${RTABMap_LIBRARY_DIRS}
+${OpenCV_LIBRARY_DIRS}
 #${GLUT_LIBRARY_DIRS}  
 #${OpenGL_LIBRARY_DIRS}
  )
@@ -99,6 +102,7 @@ ${RTABMap_LIBRARIES}
 #${GLUT_LIBRARIES} 
 #${OPENGL_LIBRARIES} 
 ${catkin_LIBRARIES}
+${OpenCV_LIBRARIES}
 ${QT_QTCORE_LIBRARY}
  )
 ## END_TUTORIAL
