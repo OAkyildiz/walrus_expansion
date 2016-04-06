@@ -33,5 +33,7 @@
 		</node>
 		
 	</group>
+	
+	  <include file="$(find walrus_interface_controller)/launch/web_interface.launch" 		ns="driverstation_interface" />
 
 </launch>

@@ -54,16 +54,15 @@ catkin_package(
 
 # We need add -DQT_WIDGETS_LIB when using QtWidgets in Qt 5.
 add_definitions(${Qt5Widgets_DEFINITIONS})
-add_definitions(${Qt5Widgets_DEFINITIONS})
 add_definitions(${Qt5Gui_DEFINITIONS})
-add_definitions(${Qt5Quick_DEFINITIONS})
+add_definitions(${Qt5Core_DEFINITIONS})
 
 link_directories(
     ${catkin_LIBRARY_DIRS}
     ${RTABMap_LIBRARIES}
     ${Qt5Widgets_LIBRARIES}
     ${Qt5Gui_LIBRARIES}
-    ${Qt5Quick_LIBRARIES}
+    ${Qt5Core_LIBRARIES}
     #${GLUT_LIBRARY_DIRS}
     #${OpenGL_LIBRARY_DIRS}
 )
@@ -147,7 +146,7 @@ target_link_libraries(widget
     ${catkin_LIBRARIES}
     Qt5::Widgets
     Qt5::Gui
-    Qt5::Quick
+    Qt5::Core
 
  )
 
