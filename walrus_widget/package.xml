@@ -2,7 +2,7 @@
   <name>walrus_widget</name>
   <version>0.9.2</version>
   <description>
-     Tutorial showing how to compile your own C++ program with RViz displays and features.
+     ****.
   </description>
   <maintainer email="oakyildiz@wpi.edu">Ozan Akyildiz</maintainer>
   <license>BSD</license>
@@ -14,7 +14,8 @@
 
   <build_depend>roscpp</build_depend>
   <build_depend>rviz</build_depend>
-  <!--build_depend>rtabmap</build_depend-->
+  <build_depend>rtabmap</build_depend>
+  <build_depend>rtabmap_ros</build_depend>
   <build_depend>OpenGL</build_depend>
   <build_depend>glut</build_depend>
   <build_depend>libxmu-dev</build_depend>
@@ -25,7 +26,8 @@
   <run_depend>roscpp</run_depend>
   <run_depend>rviz</run_depend>
   <run_depend>nodelet</run_depend>
-  <!--run_depend>rtabmap</run_depend-->
+  <run_depend>rtabmap</run_depend>
+  <run_depend>rtabmap_ros</run_depend>
   <run_depend>OpenGL</run_depend>
   <run_depend>glut</run_depend>
   <run_depend>libxmu-dev</run_depend>

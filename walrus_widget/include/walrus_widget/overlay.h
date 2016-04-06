@@ -2,7 +2,7 @@
 #define WIDGET_H
 
 
-#include <QtWidgets>
+#include <QWidget>
 #include <QFrame>
 #include <QLCDNumber>
 

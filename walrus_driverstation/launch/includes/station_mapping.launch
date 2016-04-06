@@ -4,7 +4,7 @@
   	<arg name="throttle_ns" 	default="boom"/> 
     <arg name="device" 		default="kinect"/>
     
-    <arg name="station_map"	default="false" /> <!-- mapping or just viz?-->
+    <arg name="station_map"	default="true" /> <!-- mapping or just viz?-->
     
     <arg name="gui"			default="true"/> <!-- Launch GUI-->
     
@@ -15,8 +15,8 @@
 	<arg name="rviz_cfg"                default="-d $(find walrus_driverstation)/rviz/remote_mapping.rviz" />
 	
    	<!-- Image topics -->
-    <arg name="rgb_topic" 			default="$(arg throttle_ns)/throttled/image"/>
-	<arg name="depth_topic" 		default="$(arg throttle_ns)/throttled/image_depth"/>
+    <arg name="rgb_topic" 			default="/$(arg throttle_ns)/throttled/image"/>
+	<arg name="depth_topic" 		default="/$(arg throttle_ns)/throttled/image_depth"/>
 	<arg name="camera_info_topic" 	default="$(arg throttle_ns)/throttled/camera_info"/>
 	
 	<include if="$(arg station_map)" file="$(find walrus_driverstation)/launch/includes/rtabmap/rtabmap.launch.xml">

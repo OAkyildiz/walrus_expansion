@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <package>
-  <name>walrus_joystick_controller</name>
+  <name>walrus_driverstation_joystick_controller</name>
   <version>0.0.0</version>
-  <description>The walrus_joystick_controller package</description>
+  <description>The walrus_driverstation_joystick_controller package</description>
 
-  <maintainer email="mwills@wpi.edu">Mitchell Wills</maintainer>
-
+  <maintainer email="oakyildiz@wpi.edu">Ozan Akyildiz</maintainer>
+  <author email="mwills@wpi.edu">Mitchell Wills</author>
   <license>BSD</license>
 
   <url type="website">http://robot.wpi.edu/walrus</url>

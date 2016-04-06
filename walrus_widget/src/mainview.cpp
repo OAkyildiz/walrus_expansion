@@ -7,7 +7,7 @@
 
 
 MainView::MainView(QWidget *parent) :
-    QOpenGLWidget(parent)
+    QGLWidget(parent)
 {
     scene3d_ = new MapViz();
     //indicators_=new Overlay();

@@ -6,8 +6,9 @@
 #include <ros/ros.h>
 #include <stdlib.h>     /* getenv */
 
-#include <QtWidgets>
-#include <QOpenGLWidget>
+#include <QWidget>
+#include <QApplication>
+//#include <QOpenGLWidget>
 //#include <QtOpenGL>
 #include <QVBoxLayout>
 #include <QSizePolicy>
@@ -16,7 +17,7 @@
 //#include <QPainter>
 //#include <QFrame>
 
-#include "walrus_widget/glextensions.h"
+//#include "walrus_widget/glextensions.h"
 #include "walrus_widget/mainview.h"
 #include "walrus_widget/qnode.h"
 #include "walrus_widget/overlay.h"
@@ -97,5 +98,7 @@ int main(int argc, char **argv)
   // // view.setScene(&scene);
 
   return app.exec();
+  delete widget;
+
 
 }

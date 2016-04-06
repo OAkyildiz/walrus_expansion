@@ -1,11 +1,11 @@
 #ifndef MAINVIEW_H
 #define MAINVIEW_H
 
-#include <QOpenGLWidget>
+#include <QGLWidget>
 
 #include "mapviz.h"
 //#include "../include/walrus_widget/overlay.h"
-class MainView : public QOpenGLWidget
+class MainView : public QGLWidget
 {
     Q_OBJECT
 public:

@@ -1,7 +1,7 @@
-#include "robot_model.h"
+#include "walrus_widget/robot_model.h"
 
-RobotModel::RobotModel()
+RobotModel::RobotModel() : QObject()
 {
-    Q_OBJECT
+
 
 }

@@ -1,10 +1,10 @@
-#include "walrus_remote_joystick_controller/joystick_controller.h"
-#include "walrus_remote_joystick_controller/JoystickControllerState.h"
+#include "walrus_driverstation_joystick_controller/joystick_controller.h"
+#include "walrus_driverstation_joystick_controller/JoystickControllerState.h"
 #include <walrus_pod_controller/PodCommand.h>
 #include <walrus_drive_controller/TankDriveCommand.h>
 #include <position_effort_controller/PositionEffortCommand.h>
 
-namespace walrus_remote_joystick_controller {
+namespace walrus_driverstation_joystick_controller {
 
 Pod::Pod(ros::NodeHandle nh, const std::string& topic) {
   pub_ = nh.advertise<walrus_pod_controller::PodCommand>(topic, 1);
@@ -89,7 +89,7 @@ JoystickController::JoystickController(ros::NodeHandle& nh, ros::NodeHandle& pnh
   spray_pub.advertise(nh, "/arm/spray", 1);
 
 
-  state_pub_ = pnh.advertise<walrus_remote_joystick_controller::JoystickControllerState>("state", 1, true);
+  state_pub_ = pnh.advertise<walrus_driverstation_joystick_controller::JoystickControllerState>("state", 1, true);
   state_pub_timer_ = nh.createTimer(ros::Duration(1.0), boost::bind(&JoystickController::updateState, this, false));
 
   joy_sub_ = nh.subscribe<sensor_msgs::Joy>("joy", 1, &JoystickController::joyCallback, this);
@@ -99,7 +99,7 @@ JoystickController::JoystickController(ros::NodeHandle& nh, ros::NodeHandle& pnh
 void JoystickController::updateState(bool force_publish) {
   bool available = last_joy_message_ + joystick_available_timeout_ > ros::Time::now();
   if(last_state_publish_ + state_publish_delay_ < ros::Time::now() || !available || force_publish) {
-    walrus_remote_joystick_controller::JoystickControllerState state;
+    walrus_driverstation_joystick_controller::JoystickControllerState state;
     state.enabled = enabled_;
     state.high_speed_mode = high_speed_mode_;
     state.available = available;

@@ -41,6 +41,6 @@ src/robot_model.cpp
 src/warning.cpp
 src/warningspanel.cpp
 ui/overlay.ui
+CMakeLists.txt.qt5
 CMakeLists.txt
-CMakeLists.txt.qt4
 package.xml

@@ -1,9 +1,12 @@
 #ifndef BATTERYINDICATOR_H
 #define BATTERYINDICATOR_H
 
-#include <QtWidgets>
+#include <QWidget>
 #include <QResizeEvent>
 #include <QPaintEvent>
+#include <QLabel>
+#include <QProgressBar>
+
 
 class BatteryIndicator : public QWidget
 {

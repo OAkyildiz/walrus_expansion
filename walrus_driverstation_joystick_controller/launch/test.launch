@@ -1,0 +1,4 @@
+<launch>
+	  <include file="$(find walrus_driverstation_joystick_controller)/launch/driverstation_joy.launch" 		ns="driverstation_interface" />
+
+</launch>

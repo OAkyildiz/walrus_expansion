@@ -4,7 +4,7 @@
 #include "std_msgs/Float64.h"
 #include "std_msgs/Bool.h"
 
-namespace walrus_joystick_controller {
+namespace walrus_driverstation_joystick_controller {
 
 class Pod {
 public:
