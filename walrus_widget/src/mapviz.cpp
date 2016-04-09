@@ -40,6 +40,7 @@
 #include "rviz/yaml_config_reader.h"
 #include "rviz/config.h"
 #include "walrus_widget/overlay.h"
+#include <string>
 
 #include "rtabmap_ros/rviz/MapCloudDisplay.h"
 
@@ -59,7 +60,7 @@ MapViz::MapViz( QWidget* parent, qnode::QNode* qnode )
   main_layout->addWidget( render_panel_ );
   setLayout( main_layout );
 
-
+  QString frame_id("walrus/odom");
 
 //  rviz::Config* aconfig = new rviz::Config();
 //  config_reader_->readFile(*aconfig,"remote_mapping.rviz");
@@ -82,9 +83,9 @@ MapViz::MapViz( QWidget* parent, qnode::QNode* qnode )
   cloud_= manager_->createDisplay("rviz/PointCloud2", "voxel_cloud", true);
   map_ = new rtabmap_ros::MapCloudDisplay();
   manager_->addDisplay(map_,true);
-  manager_->setFixedFrame("walrus/base_footprint");
+  manager_->setFixedFrame(frame_id);
   
-  grid_->setFixedFrame("walrus/base_footprint");
+  grid_->setFixedFrame(frame_id);
 
   ROS_ASSERT( model_ != NULL );
   
@@ -93,13 +94,13 @@ MapViz::MapViz( QWidget* parent, qnode::QNode* qnode )
   grid_->subProp( "Color" )->setValue( Qt::yellow );
 
   cloud_->subProp( "Topic" )->setValue("/voxel_cloud");
-  //cloud_->subProp( "Queue Size" )->setValue("10");
+  cloud_->subProp( "Queue Size" )->setValue("10");
   cloud_->subProp( "Size (m)" )->setValue("0.01");
 
-  map_->subProp( "Topic" )->setValue("/rtabmap/mapData");
+  map_->subProp( "Topic" )->setValue("/driverstation/rtabmap/mapData");
   //map_->subProp( "Queue Size" )->setValue("10");
 
-  //manager_->startUpdate();
+  manager_->startUpdate();
 
   setSizePolicy(QSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored));
   resize(1920,1080);
@@ -169,33 +170,3 @@ void MapViz::setMap(rtabmap_ros::MapCloudDisplay *map)
 {
     map_ = map;
 }
-
-
-
-
-
-
-
-
-
-// This function is a Qt slot connected to a QSlider's valueChanged()
-// signal.  It sets the line thickness of the grid by changing the
-// grid's "Line Width" property.
-//void MyViz::setThickness( int thickness_percent )
-//{
-//  if( grid_ != NULL )
-//  {
-//    grid_->subProp( "Line Style" )->subProp( "Line Width" )->setValue( thickness_percent / 100.0f );
-//  }
-//}
-
-//// This function is a Qt slot connected to a QSlider's valueChanged()
-//// signal.  It sets the cell size of the grid by changing the grid's
-//// "Cell Size" Property.
-//void MyViz::setCellSize( int cell_size_percent )
-//{
-//  if( grid_ != NULL )
-//  {
-//    grid_->subProp( "Cell Size" )->setValue( cell_size_percent / 10.0f );
-//  }
-//}

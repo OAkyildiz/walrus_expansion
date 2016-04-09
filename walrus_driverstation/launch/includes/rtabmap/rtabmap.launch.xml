@@ -20,7 +20,7 @@
   
   <arg name="frame_id"                default="camera_link"/>     <!-- Fixed frame id, you may set "base_link" or "base_footprint" if they are published -->
   <arg name="namespace"               default="rtabmap"/>
-  <arg name="database_path"           default="~/.ros/rtabmap.db"/>
+  <arg name="database_path"           default="~/map_database/rtabmap.db"/>
   <arg name="queue_size"              default="10"/>
   <arg name="wait_for_transform"      default="0.1"/>
   <arg name="rtabmap_args"            default=""/>              <!-- delete_db_on_start, udebug -->
@@ -52,7 +52,7 @@
   <!-- Nodes -->
   <group ns="$(arg namespace)">
   
-    <!-- RGB-D Odometry -->
+    <!-- RGB-D Relays -->
       <node if="$(arg compressed)" name="republish_rgb" type="republish" pkg="image_transport" args="$(arg rgb_image_transport) in:=$(arg rgb_topic) raw out:=$(arg rgb_topic_relay)" />
       <node if="$(arg compressed)" name="republish_depth" type="republish" pkg="image_transport" args="compressedDepth in:=$(arg depth_topic) raw out:=$(arg depth_topic_relay)" />
   
@@ -67,7 +67,9 @@
       <param name="frame_id"            type="string" value="$(arg frame_id)"/>
       <param name="wait_for_transform_duration"  type="double"   value="$(arg wait_for_transform)"/>
       <param name="database_path"       type="string" value="$(arg database_path)"/>
-
+	  
+	  <param name="approx_sync" type="bool" value="true"/>	
+		
       <param name="config_path"          type="string" value="$(arg cfg)"/>
       <param name="queue_size"                  type="int" value="$(arg queue_size)"/>
       
@@ -103,12 +105,14 @@
   
   <!-- Visualization RVIZ -->
   <node if="$(arg rviz)" pkg="rviz" type="rviz" name="rviz" args="$(arg rviz_cfg)"/>
-  <node if="$(arg rviz)" pkg="nodelet" type="nodelet" name="points_xyzrgb" args="standalone rtabmap_ros/point_cloud_xyzrgb">
+  
+  <!-- Make pointclouds -->
+  <node  pkg="nodelet" type="nodelet" name="points_xyzrgb" args="standalone rtabmap_ros/point_cloud_xyzrgb">
  
-    <remap from="rgb/image"         to="$(arg rgb_topic_relay)"/>
-    <remap from="depth/image"       to="$(arg depth_topic_relay)"/>
-    <remap from="rgb/camera_info"   to="$(arg camera_info_topic)"/>
-    <remap from="cloud"             to="voxel_cloud" />
+    <remap from="rgb/image"         to="/$(arg rgb_topic_relay)"/>
+    <remap from="depth/image"       to="/$(arg depth_topic_relay)"/>
+    <remap from="rgb/camera_info"   to="/$(arg camera_info_topic)"/>
+    <remap from="cloud"             to="/voxel_cloud" />
 
     <param name="decimation"  type="double" value="2"/>
     <param name="voxel_size"  type="double" value="0.02"/>

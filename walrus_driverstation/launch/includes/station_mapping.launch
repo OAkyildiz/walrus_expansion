@@ -28,7 +28,7 @@
 		<arg name="rtabmap_args" 		value="--delete_db_on_start"/>
 		
 		<arg name="odom_topic" 			value="/base_epos/drive_controller/odom"/>
-		<arg name="frame_id" 			value="walrus/base_footprint"/>
+		<arg name="frame_id" 			value="walrus/odom"/>
 		
 		<arg name="rviz" 				value="$(arg rviz)" />
  		<arg name="rtabmapviz" 			value="false" /> 
