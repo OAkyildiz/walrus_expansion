@@ -96,6 +96,7 @@ namespace qnode {
                 console_pub_.publish(msg);
                 log(Info,std::string("I sent: ")+msg.data);
             }
+            ros::spinOnce();
             loop_rate.sleep();
             ++count;
         }

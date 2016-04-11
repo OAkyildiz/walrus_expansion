@@ -77,7 +77,7 @@ JoystickController::JoystickController(ros::NodeHandle& nh, ros::NodeHandle& pnh
   pnh.param<int>("axis_arm_shoulder", axis_arm_shoulder_, 1);
   pnh.param<int>("axis_arm_tilt", axis_arm_tilt_, 5);
 
-  tank_drive_pub_ = nh.advertise<walrus_drive_controller::TankDriveCommand>("pre_tank_drive", 1);
+  tank_drive_pub_ = nh.advertise<walrus_drive_controller::TankDriveCommand>("tank_drive", 1);
   
   boom_pan_effort = nh.advertise<position_effort_controller::PositionEffortCommand>("/boom/pan_controller/command", 1);
   boom_tilt_effort = nh.advertise<position_effort_controller::PositionEffortCommand>("/boom/tilt_controller/command", 1);
