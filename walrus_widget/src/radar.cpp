@@ -37,6 +37,12 @@ Radar::Radar(QWidget *parent, qnode::QNode* qnode)
 
     manager_ = new rviz::VisualizationManager( render_panel_ );
     render_panel_->initialize( manager_->getSceneManager(), manager_ );
+
+    view_ = new rviz::FixedOrientationOrthoViewController();
+   //render_panel_->setViewController(view_);
+
+    //view_->lookAt(0.0,0.0,0.0);
+
     manager_->initialize();
     manager_->unlockRender();
     manager_->startUpdate();
@@ -57,7 +63,7 @@ Radar::Radar(QWidget *parent, qnode::QNode* qnode)
     robot_marker_ = manager_->createDisplay( "rviz/Marker", "robot_marker", true );
     robot_marker_->setFixedFrame("walrus/base_footprint");
 
-    robot_marker_->subProp( "Marker Topic" )->setValue("/robot_marker");
+    robot_marker_->subProp( "Marker Topic" )->setValue("/driverstation/robot_marker");
     //robot_marker_->subProp( "Queue Size" )->setValue("10");
 
 }

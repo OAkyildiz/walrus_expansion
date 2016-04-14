@@ -337,7 +337,7 @@ namespace qnode {
         cameras[3].topic = "rear_camera/image_raw";
 
         cameras[4].title = QString("Boom Camera");
-        cameras[4].topic = "boom/throttled/image";
+        cameras[4].topic = "/boom/throttled/image_relay";
 
         cameras[0].title = QString("webcam");
         cameras[0].topic = "usb_cam/image_raw";

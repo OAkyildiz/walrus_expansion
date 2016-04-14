@@ -1,13 +1,14 @@
 <!-- Launch file for remote (station side) mapping with rtabmap-->
 <launch>
 
-  	<arg name="throttle_ns" 	default="boom"/> 
-    <arg name="device" 		default="kinect"/>
+  	<arg name="throttle_ns" 		default="boom"/> 
+    <arg name="device" 				default="kinect"/>
     
-    <arg name="station_map"	default="true" /> <!-- mapping or just viz?-->
+    <arg name="station_map"			default="true" /> <!-- mapping or just viz?-->
     
-    <arg name="gui"			default="true"/> <!-- Launch GUI-->
-    
+    <arg name="gui"					default="true"/> <!-- Launch GUI-->
+    <arg name="fake_scan"			default="true"/>
+    <arg name="visual_odom"			default="false"/>
     
 	<!-- RViz? -->    
     <arg if="$(arg gui)" 		name="rviz" 		value="false"/>
@@ -19,21 +20,49 @@
 	<arg name="depth_topic" 		default="/$(arg throttle_ns)/throttled/image_depth"/>
 	<arg name="camera_info_topic" 	default="$(arg throttle_ns)/throttled/camera_info"/>
 	
-	<include if="$(arg station_map)" file="$(find walrus_driverstation)/launch/includes/rtabmap/rtabmap.launch.xml">
-		<arg name="rgb_topic" 			value="$(arg rgb_topic)"/>
-		<arg name="depth_topic" 		value="$(arg depth_topic)"/>
-		<arg name="camera_info_topic" 	value="/$(arg camera_info_topic)"/>
+	<group if="$(arg station_map)">
+		<include file="$(find walrus_driverstation)/launch/includes/rtabmap/rtabmap.launch.xml">
+			<arg name="rgb_topic" 			value="$(arg rgb_topic)"/>
+			<arg name="depth_topic" 		value="$(arg depth_topic)"/>
+			<arg name="camera_info_topic" 	value="/$(arg camera_info_topic)"/>
 		
-		<arg name="compressed"			value="true"/>
-		<arg name="rtabmap_args" 		value="--delete_db_on_start"/>
+			<arg name="compressed"			value="true"/>
+			<arg name="rtabmap_args" 		value="--delete_db_on_start"/>
 		
-		<arg name="odom_topic" 			value="/base_epos/drive_controller/odom"/>
-		<arg name="frame_id" 			value="walrus/odom"/>
+			<arg name="odom_topic" 			value="/base_epos/drive_controller/odom"/>
+			<arg name="frame_id" 			value="walrus/odom"/>
 		
-		<arg name="rviz" 				value="$(arg rviz)" />
- 		<arg name="rtabmapviz" 			value="false" /> 
- 		<arg name="rviz_cfg"            value="$(arg rviz_cfg)" />
-	</include>
+			<arg name="rviz" 				value="$(arg rviz)" />
+ 			<arg name="rtabmapviz" 			value="false" /> 
+ 			<arg name="rviz_cfg"            value="$(arg rviz_cfg)" />
+ 			
+ 			<arg name="subscribe_scan"          value="$(arg fake_scan)"/>
+ 			<arg name="scan_topic"              value="/kinect_scan"/>
+ 			
+ 			<arg name="visual_odometry"			value="$(arg visual_odom)"/>
+ 			
+ 			          <!-- RTAB-Map's parameters -->
+           <param name="RGBD/OptimizeFromGraphEnd" type="string" value="false"/>
+           <param name="Kp/MaxDepth" type="string" value="4.0"/>
+           <param name="LccIcp/Type" type="string" value="2"/>
+           <param name="LccIcp2/CorrespondenceRatio" type="string" value="0.5"/>
+           <param name="LccBow/MinInliers" type="string" value="3"/>
+           <param name="LccBow/InlierDistance" type="string" value="0.05"/>
+           <param name="RGBD/AngularUpdate" type="string" value="0.01"/>
+           <param name="RGBD/LinearUpdate" type="string" value="0.01"/>
+           <param name="Rtabmap/TimeThr" type="string" value="700"/>
+           <param name="Mem/RehearsalSimilarity" type="string" value="0.45"/>  
+		</include>
+		
+		<!-- Kinect cloud to laser scan -->
+		<node if="$(arg fake_scan)" pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" name="depthimage_to_laserscan">
+			<remap from="image"     	to="$(arg rgb_topic)"/>
+			<remap from="camera_info" 	to="/$(arg camera_info_topic)"/>
+			<remap from="scan" 			to="/kinect_scan"/>
+			
+			<param name="range_max" 	type="double" value="6.0"/>
+		</node>
+	</group>
 	
 	<group unless="$(arg station_map)">
 		<node if="$(arg rviz)" pkg="rviz" type="rviz" name="rviz" args="$(arg rviz_cfg)"/>

@@ -57,7 +57,16 @@
       <node if="$(arg compressed)" name="republish_depth" type="republish" pkg="image_transport" args="compressedDepth in:=$(arg depth_topic) raw out:=$(arg depth_topic_relay)" />
   
     
-  
+
+	<!-- Odometry -->
+		<node if="$(arg visual_odometry)" pkg="rtabmap_ros" type="rgbd_odometry" name="rgbd_odometry" output="screen">
+   	   		<remap from="rgb/image"       to="$(arg rgb_topic_relay)"/>
+      		<remap from="depth/image"     to="$(arg depth_topic_relay)"/>
+      		<remap from="rgb/camera_info" to="$(arg camera_info_topic)"/>
+      
+
+      		<param name="frame_id" type="string" value="$(arg frame_id)"/>
+    	</node>
     <!-- Visual SLAM (robot side) -->
     <!-- args: "delete_db_on_start" and "udebug" -->
     <node name="rtabmap" pkg="rtabmap_ros" type="rtabmap" output="screen" args="$(arg rtabmap_args)" launch-prefix="$(arg launch_prefix)">
@@ -115,6 +124,7 @@
     <remap from="cloud"             to="/voxel_cloud" />
 
     <param name="decimation"  type="double" value="2"/>
+    <param name="queue_size"		type="int" 		value="10"/>
     <param name="voxel_size"  type="double" value="0.02"/>
 
   </node>

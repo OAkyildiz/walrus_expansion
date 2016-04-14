@@ -9,6 +9,8 @@
 
 #include "rviz/visualization_manager.h"
 #include "rviz/render_panel.h"
+#include "rviz/default_plugin/view_controllers/fixed_orientation_ortho_view_controller.h"
+
 #include "rviz/display.h"
 
 namespace rviz
@@ -18,6 +20,7 @@ class RenderPanel;
 class VisualizationManager;
 class Config;
 class YamlConfigReader;
+class FixedOrientationOrthoViewController;
 }
 
 class Radar : public QFrame
@@ -34,7 +37,7 @@ private:
 
     rviz::VisualizationManager* manager_;
     rviz::RenderPanel* render_panel_;
-
+    rviz::FixedOrientationOrthoViewController* view_;
     QLabel* bound_;
 
     rviz::Display* grid_;

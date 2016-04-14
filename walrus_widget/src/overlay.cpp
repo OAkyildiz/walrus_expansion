@@ -30,14 +30,16 @@ Overlay::Overlay(QWidget *parent, qnode::QNode* qnode)
     connect(qnode_,SIGNAL(Update_Speed(double, double, double)),tachometer_,SLOT(SpeedUpdated(double, double, double)));
     connect(qnode_,SIGNAL(Update_Pose(double, double, double, double, double, double, double)),tachometer_,SLOT(PoseUpdated(double, double, double, double, double, double, double)));
 
-    qnode_->cameraTopicChanged(1);
+    qnode_->cameraTopicChanged(4);
 
 }
 
 
 void Overlay::initWidgets(){
-    QString gray = QString("/home/oakyildiz/mqp_2016_ws/src/walrus_xp/walrus_widget/resources/images/placeholder64.gif");
-    QString icon = QString("/home/oakyildiz/mqp_2016_ws/src/walrus_xp/walrus_widget/resources/images/icon.png");
+    QString wifi_icon = QString("/home/oakyildiz/mqp_2016_ws/src/walrus_xp/walrus_widget/resources/images/indic/wifi_full_512.png");
+    QString ctrl = QString("/home/oakyildiz/mqp_2016_ws/src/walrus_xp/walrus_widget/resources/images/indic/controller1.png");
+    QString wat = QString("/home/oakyildiz/mqp_2016_ws/src/walrus_xp/walrus_widget/resources/images/warnings/water1.jpg");
+    QString heat = QString("/home/oakyildiz/mqp_2016_ws/src/walrus_xp/walrus_widget/resources/images/warnings/overheat2.jpg");
 
 
 
@@ -56,13 +58,13 @@ void Overlay::initWidgets(){
 
 
     /* Warnings */
-    warnings_panel_ = new WarningsPanel(this);
-    warnings_panel_->addWarning("first",icon);
-    warnings_panel_->showWarning("first");
+    warnings_panel_ = new WarningsPanel(0);
+    //warnings_panel_->addWarning("first",wat);
+    //warnings_panel_->showWarning("first");
 
 
-    warnings_panel_->addWarning("second",gray);
-    warnings_panel_->showWarning("second");
+    //warnings_panel_->addWarning("second",heat);
+    //warnings_panel_->showWarning("second");
 
 //    warnings_panel_->hideWarning("first");
 //    warnings_panel_->showWarning("first");
@@ -71,11 +73,11 @@ void Overlay::initWidgets(){
 //    warnings_panel_->showWarning("second");
     /* Indicators */
 
-    Indicator* wifi = new Indicator(0,"wifi",gray);
+    Indicator* wifi = new Indicator(0,"wifi",wifi_icon);
 
-    comms_= new IndicatorsPanel(this,"V");
-    comms_->addIndicator(wifi);
-    comms_->addIndicator("controller", icon);
+    comms_= new IndicatorsPanel(0,"V");
+    //comms_->addIndicator(wifi);
+    //comms_->addIndicator("controller", ctrl);
 
     /* Odometry*/
     tachometer_ = new OdometryDisplay(this);
