@@ -45,6 +45,7 @@ Visualization Manager:
         X: 0
         Y: 0
         Z: 0
+
       Plane: XY
       Plane Cell Count: 10
       Reference Frame: walrus/odom
@@ -108,14 +109,14 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.01
       Style: Points
-      Topic: /rtabmap/mapData
+      Topic: /driverstation/rtabmap/mapData
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
     - Class: rtabmap_ros/Info
       Enabled: true
       Name: Info
-      Topic: /rtabmap/info
+      Topic: /driverstation/rtabmap/info
       Value: true
     - Alpha: 1
       Class: rviz/RobotModel

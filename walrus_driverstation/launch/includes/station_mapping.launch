@@ -42,16 +42,7 @@
  			<arg name="visual_odometry"			value="$(arg visual_odom)"/>
  			
  			          <!-- RTAB-Map's parameters -->
-           <param name="RGBD/OptimizeFromGraphEnd" type="string" value="false"/>
-           <param name="Kp/MaxDepth" type="string" value="4.0"/>
-           <param name="LccIcp/Type" type="string" value="2"/>
-           <param name="LccIcp2/CorrespondenceRatio" type="string" value="0.5"/>
-           <param name="LccBow/MinInliers" type="string" value="3"/>
-           <param name="LccBow/InlierDistance" type="string" value="0.05"/>
-           <param name="RGBD/AngularUpdate" type="string" value="0.01"/>
-           <param name="RGBD/LinearUpdate" type="string" value="0.01"/>
-           <param name="Rtabmap/TimeThr" type="string" value="700"/>
-           <param name="Mem/RehearsalSimilarity" type="string" value="0.45"/>  
+           
 		</include>
 		
 		<!-- Kinect cloud to laser scan -->
