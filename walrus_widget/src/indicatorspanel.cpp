@@ -1,15 +1,9 @@
 #include "walrus_widget/indicatorspanel.h"
 
-IndicatorsPanel::IndicatorsPanel(QWidget* parent, std::string dir) : QFrame(parent),
+IndicatorsPanel::IndicatorsPanel(QWidget* parent, QBoxLayout::Direction dir) : QFrame(parent),
     indicators_keys_(0)
 {
-    if (dir[0]=='H' || dir[0]=='h'){
-        indicators_layout_ = new QBoxLayout(QBoxLayout::LeftToRight);
-    }
-    else if (dir[0]=='V' || dir[0]=='V'){
-
-    }
-        indicators_layout_ = new QBoxLayout(QBoxLayout::BottomToTop);
+    indicators_layout_ = new QBoxLayout(dir);
 
     indicators_layout_->setSpacing(0);
     setLayout(indicators_layout_);

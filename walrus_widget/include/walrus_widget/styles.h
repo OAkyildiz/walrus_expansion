@@ -3,6 +3,10 @@
 
 #include <QString>
 #include <QFont>
+#include <ros/package.h>
+
+static const QString widget_path = QString::fromStdString(ros::package::getPath("walrus_widget"));
+static const QString img_path = widget_path + "/resources/images";
 
 namespace Styles {
 
@@ -53,6 +57,51 @@ static const QFont moon10 = QFont("moonhouse",10);
 
 }
 
+
+namespace Indicators {
+
+ static const QString NoBar = QString(img_path + "/nobar.png");
+
+ static const QString Battery1 = QString(img_path + "/battery/h-battery1.png");
+
+ static const QString cotnroller = QString(img_path + "/indic/controller1.png");
+
+ namespace PC{
+    static const QString CPU = QString(img_path + "/pc/ram2.png");
+    static const QString Memory = QString(img_path + "/pc/cpu-512.png");
+    static const QString Temperature = QString(img_path + "/indic/therm_inside.png");
+ }
+
+ namespace Environment{
+     static const QString CO = QString(img_path + "/enviro/CO_128.png");
+     static const QString LPG = QString(img_path + "/enviro/lpg-128.png");
+     static const QString H = QString(img_path + "/enviro/h2-512.png");
+     static const QString CNG = QString(img_path + "/enviro/cng-512.png");
+     static const QString Humidity = QString(img_path + "/enviro/humidity_512.png");
+     static const QString Temperature = QString(img_path + "/indic/thermoC");
+
+ }
+
+ namespace Wifi{
+    //static const QString None = QString(img_path + "/indic");
+    static const QString Poor = QString(img_path + "/indic/wifi_0_512.png");
+    static const QString Weak = QString(img_path + "/indic/wifi_1_512.png");
+    static const QString Fair = QString(img_path + "/indic/wifi_2_512.png");
+    static const QString Strong = QString(img_path + "/indic/wifi_full_512.png");
+ }
+
+}
+
+namespace Warnings {
+
+static const QString NoBar = QString(img_path + "/nobar.png");
+static const QString Water1 = QString(img_path + "/warnings/water1.jpg");
+static const QString Water2 = QString(img_path + "/warnings/water_icon.png");
+static const QString Overheat = QString(img_path + "/warnings/overheat2-512.jpg");
+static const QString LowBattery = QString(img_path + "/warnings/battery_gray.png");
+
+
+}
 
 
 

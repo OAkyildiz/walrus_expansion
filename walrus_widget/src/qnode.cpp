@@ -37,14 +37,14 @@ namespace qnode {
 /*****************************************************************************
 ** Implementation
 *****************************************************************************/
-//TO DO: parameterize NodeHandel nh for qnode, so it is reachable
+//TO DO: parameterize NodeHandle nh for qnode, so it is reachable
 //      -- This way ros::shutdown and start() can be changed to preferred methods.
 
     QNode::QNode(int argc, char** argv, bool verbose) :
         init_argc(argc),
         init_argv(argv)
     {
-        //qRegisterMetaType<std::string>();
+        //RegisterMetaType<std::string>();
         defineCameras();
         _first = false;
         _verbose = verbose;

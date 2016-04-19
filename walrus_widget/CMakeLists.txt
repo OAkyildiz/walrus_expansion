@@ -16,9 +16,9 @@ cmake_minimum_required(VERSION 2.8.3)
 
 project(walrus_widget)
 find_package(catkin REQUIRED COMPONENTS
-roscpp rviz image_transport cv_bridge
+roscpp  rviz image_transport cv_bridge
 rtabmap_ros
-#rtabmap
+#rtabmap roslib
 diagnostic_msgs nav_msgs visualization_msgs)
 find_package(RTABMap 0.10.10 REQUIRED)
 find_package(Qt4 COMPONENTS QtCore QtGui QtOpenGL QtDesigner REQUIRED )

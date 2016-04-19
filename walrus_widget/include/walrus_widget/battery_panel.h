@@ -3,10 +3,11 @@
 
 
 
-#include <QFrame>
-#include <QHBoxLayout>
+
 
 #include "battery_indicator.h"
+#include <QFrame>
+#include <QHBoxLayout>
 
 class BatteryPanel : public QFrame
 {
@@ -17,7 +18,6 @@ public:
     virtual ~BatteryPanel();
 
 Q_SIGNALS:
-   //void batteryLow(){}
 
 public Q_SLOTS: //protected
     // signal might be connected to indicators individually or it could be change(name,value)

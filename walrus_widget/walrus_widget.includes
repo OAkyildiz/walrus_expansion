@@ -1,5 +1,2 @@
-include/walrus_widget
 include/rtabmap_ros/rviz
-include/rtabmap_ros
-src
-.
+include/walrus_widget

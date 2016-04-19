@@ -9,8 +9,8 @@
 
 
 Overlay::Overlay(QWidget *parent, qnode::QNode* qnode)
-    //:QFrame(parent)
-    :MapViz(parent,qnode)
+    :QFrame(parent)
+    //:MapViz(parent,qnode)
 
 {
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
@@ -75,7 +75,7 @@ void Overlay::initWidgets(){
 
     Indicator* wifi = new Indicator(0,"wifi",wifi_icon);
 
-    comms_= new IndicatorsPanel(0,"V");
+    comms_= new IndicatorsPanel(0,QBoxLayout::LeftToRight);
     //comms_->addIndicator(wifi);
     //comms_->addIndicator("controller", ctrl);
 

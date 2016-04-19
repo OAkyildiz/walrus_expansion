@@ -14,7 +14,7 @@ class IndicatorsPanel : public QFrame
     Q_OBJECT
 
 public:
-    explicit IndicatorsPanel(QWidget* parent = 0, std::string dir ="H");
+    explicit IndicatorsPanel(QWidget* parent = 0,  QBoxLayout::Direction dir = QBoxLayout::LeftToRight);
     virtual ~IndicatorsPanel(){}
     void addIndicator(Indicator* indic);
     void addIndicator(std::string name, QString image);

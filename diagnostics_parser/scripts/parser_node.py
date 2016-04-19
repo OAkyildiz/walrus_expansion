@@ -2,7 +2,7 @@
 
 import rospy
 from diagnostic_msgs.msg import DiagnosticArray, DiagnosticStatus, KeyValue
-import DiagnosticSummary
+from diagnostics_parser.msg import DiagnosticSummary
 
 import traceback
 import threading, sys
@@ -129,14 +129,15 @@ def update_diagnostics(status):
     joy = check_controller()
 
 
-    rospy.loginfo('CPU:', summary.cpu, '%, RAM:', summary.mem, "%", summary.temp, 'C')
-    rospy.loginfo('Charges:',summary.batteries)
-    rospy.loginfo('Environment', summary.env)
+    rospy.loginfo(['CPU:', summary.cpu, '%, RAM:', summary.mem, "%", summary.temp, 'C'])
+    rospy.loginfo(['Charges:',summary.batteries])
+    rospy.loginfo(['Environment', summary.env])
 
-    rospy.loginfo('Wifi:', wifi )
-    rospy.loginfo('Joystick:', joy)
+    rospy.loginfo(['Wifi:', wifi])
+    rospy.loginfo(['Joystick:', joy])
 
-    summary_pub.punlish(summary)
+    summary.header.stamp = rospy.Time.now()
+    summary_pub.publish(summary)
 
 def diag_callback(diag):
 

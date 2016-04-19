@@ -16,7 +16,7 @@
 #include "mapviz.h"
 #include "odometry_display.h"
 
-class Overlay : public MapViz
+class Overlay : public QFrame
 {
     Q_OBJECT
 

@@ -1,4 +1,5 @@
 #include "walrus_widget/battery_panel.h"
+#include <QHBoxLayout>
 
 BatteryPanel::BatteryPanel(QWidget* parent) : QFrame(parent)
 {
@@ -28,10 +29,11 @@ BatteryPanel::~BatteryPanel(){
 }
 
 void BatteryPanel::resizeEvent(QResizeEvent *event){
+    int w = width();
+    int h = height();
 
-
-    battery1_->resize(width()*0.75/4, height()*0.75);
-    battery2_->resize(width()*0.75/4, height()*0.75);
-    battery3_->resize(width()*0.75/4, height()*0.75);
-    battery4_->resize(width()*0.75/4, height()*0.75);
+    battery1_->resize(w*0.75/4, h*0.75);
+    battery2_->resize(w*0.75/4, h*0.75);
+    battery3_->resize(w*0.75/4, h*0.75);
+    battery4_->resize(w*0.75/4, h*0.75);
 }

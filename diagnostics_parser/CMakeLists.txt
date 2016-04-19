@@ -102,8 +102,8 @@ generate_messages(
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES diagnostics_parser message_runtime
-  CATKIN_DEPENDS diagnostic_msgs rospy std_msgs
+  LIBRARIES diagnostics_parser 
+  CATKIN_DEPENDS diagnostic_msgs rospy std_msgs message_runtime
   DEPENDS system_lib
 )
 
@@ -149,10 +149,10 @@ include_directories(
 
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
-# install(PROGRAMS
-#   scripts/my_python_script
-#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
+ install(PROGRAMS
+   scripts/diagnostics_parser.py
+   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+ )
 
 ## Mark executables and/or libraries for installation
 # install(TARGETS diagnostics_parser diagnostics_parser_node
