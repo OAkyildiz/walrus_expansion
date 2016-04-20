@@ -1,31 +1,32 @@
 #ifndef WARNING_H
 #define WARNING_H
 
-#include <QLabel>
+#include "base_indicator.h"
 #include <QPropertyAnimation>
-#include <QPixmap>
 
-class Warning : public QLabel
+class Warning : public BaseIndicator
 {
     Q_OBJECT
 
 public:
-    explicit Warning(QWidget* parent, QString name, QString image );
+    explicit Warning(QWidget *parent =0, QString name = "", QString icon_path = Indicators::Placeholder);
+    virtual ~Warning() {delete fader_;}
 
-    virtual ~Warning() {}
-    void startFade();
-    void stopFade();
+
+public Q_SLOTS:
+    bool update(int value);
+
 
 protected:
-    const QString name_;
-    QPixmap* icon_;
+
+    //bool _bar = True;
     QPropertyAnimation* fader_;
-    bool switch_;
 
     void resizeEvent(QResizeEvent * event);
 
 private:
     void setFader();
+
 
 };
 

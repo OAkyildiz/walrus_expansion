@@ -60,6 +60,8 @@ static const QFont moon10 = QFont("moonhouse",10);
 
 namespace Indicators {
 
+ static const QString Placeholder = QString(img_path + "/placeholder64.gif");
+
  static const QString NoBar = QString(img_path + "/nobar.png");
 
  static const QString Battery1 = QString(img_path + "/battery/h-battery1.png");

@@ -1,9 +1,8 @@
 
 #include "walrus_widget/battery_indicator.h"
-#include "walrus_widget/styles.h"
 
-BatteryIndicator::BatteryIndicator(QWidget *parent) :
-    BarIndicator(parent,Indicators::Battery1, Qt::Horizontal)
+BatteryIndicator::BatteryIndicator(QWidget *parent, QString name) :
+    BarIndicator(parent,name, Indicators::Battery1, Qt::Horizontal)
 
 {
 

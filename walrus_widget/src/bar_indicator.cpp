@@ -1,26 +1,19 @@
 #include "walrus_widget/bar_indicator.h"
-#include "walrus_widget/styles.h"
 
-BarIndicator::BarIndicator(QWidget *parent, QString icon_path, Qt::Orientation orientation) :
-    QWidget(parent)
+BarIndicator::BarIndicator(QWidget *parent = 0, QString name = "",
+                           QString icon_path = Indicators::Placeholder,
+                           Qt::Orientation orientation  = Qt::Horizontal):
+    BaseIndicator(parent,name,icon_path),
+    _orientation(orientation)
 {
-    _orientation = orientation;
-
-    icon_ = new QPixmap(icon_path);
     level_ = new QProgressBar(this);
-    label_ = new QLabel(this);
-
-    nobar_ = new QLabel(label_);
-    nobar_->setPixmap(QPixmap(Indicators::NoBar));
-
     //Progress bar
     level_->setMinimum(0);
     level_->setMaximum(100);
     level_->setTextVisible(true);
-    level_->setOrientation(orientation);
+    level_->setOrientation(_orientation);
 
-    //level_->setValue();
-
+    level_->setValue(0);
 }
 void BarIndicator::resizeEvent(QResizeEvent *event){
 
@@ -57,18 +50,14 @@ void BarIndicator::resizeEvent(QResizeEvent *event){
 
 }
 
-void BarIndicator::valueUpdated(double value)
-{
-    double old_val = level_->value();
-    if ( old_val != value )
-        if (value == -1){ //define ERROR_VALUE
-            nobar_->show();
-            level_->setValue(0.0);
-        }
-        else
-            level_->setValue(value);
-            nobar_->hide(); // assuming hide() already cheacks for visible
 
+
+bool BarIndicator::update(int value)
+{
+    BaseIndicator::update(value);
+    level_->setValue(value);
+    // add coloring here
+    // add attributes for color direction and limits
 }
 
 Qt::Orientation BarIndicator::orientation() const
@@ -76,7 +65,3 @@ Qt::Orientation BarIndicator::orientation() const
     return _orientation;
 }
 
-void BarIndicator::setOrientation(Qt::Orientation orientation)
-{
-    _orientation = orientation;
-}

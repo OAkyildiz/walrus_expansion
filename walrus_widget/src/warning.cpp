@@ -3,29 +3,26 @@
 #include <QGraphicsOpacityEffect>
 #include <QEasingCurve>
 
-Warning::Warning(QWidget* parent = 0, QString name = QString(), QString image = QString()):
-    QLabel(parent),
-    name_(name),
-    icon_(new QPixmap(image))
+Warning::Warning(QWidget* parent, QString name, QString icon_path):
+    BaseIndicator(parent,name,icon_path)
+
 {
-    //scaled(size())
-   // setPixmap(*icon_);
+
     setFader();
 
 }
 
 
-void Warning::startFade()
+bool Warning::update(int value)
 {
-    fader_->start();
-    switch_ = true;
+    setValue(value);
+    if (value == 1)
+        fader_->start();
 
-}
+    else if (value == 0)
+        fader_->stop();
 
-void Warning::stopFade()
-{
-    fader_->stop();
-    switch_ = false;
+
 }
 
 void Warning::setFader()
@@ -48,7 +45,10 @@ void Warning::setFader()
 
 
 void Warning::resizeEvent(QResizeEvent * event){
-    *icon_=icon_->scaledToHeight(height());
-    setPixmap(*icon_);
+    label_->resize(size());
+    *icon_ = icon_->scaled(size(), Qt::KeepAspectRatio);
+    label_->setPixmap(*icon_);
 
+    nobar_->resize(size());
+    nobar_->setPixmap(nobar_->pixmap()->scaled(size(),Qt::KeepAspectRatio));
 }

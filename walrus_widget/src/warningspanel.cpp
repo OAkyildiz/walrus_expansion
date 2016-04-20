@@ -24,12 +24,12 @@ void WarningsPanel::showWarning(std::string name)
 
     warnings_layout_->addWidget(warnings_dict_[name]);
 
-    warnings_dict_[name]->startFade();
+    warnings_dict_[name]->update(1);
 }
 
 void WarningsPanel::hideWarning(std::string name)
 {
-    warnings_dict_[name]->stopFade();
+    warnings_dict_[name]->update(0);
     //warnings_dict_[name]->hide(); //show() might increase performance, add
 
     warnings_layout_->removeWidget(warnings_dict_[name]);
