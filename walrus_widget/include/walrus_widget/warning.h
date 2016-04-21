@@ -9,7 +9,7 @@ class Warning : public BaseIndicator
     Q_OBJECT
 
 public:
-    explicit Warning(QWidget *parent =0, QString name = "", QString icon_path = Indicators::Placeholder);
+    explicit Warning(QString name = "", QString icon_path = Indicators::Placeholder);
     virtual ~Warning() {delete fader_;}
 
 

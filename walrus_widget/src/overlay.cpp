@@ -36,11 +36,6 @@ Overlay::Overlay(QWidget *parent, qnode::QNode* qnode)
 
 
 void Overlay::initWidgets(){
-    QString wifi_icon = QString("/home/oakyildiz/mqp_2016_ws/src/walrus_xp/walrus_widget/resources/images/indic/wifi_full_512.png");
-    QString ctrl = QString("/home/oakyildiz/mqp_2016_ws/src/walrus_xp/walrus_widget/resources/images/indic/controller1.png");
-    QString wat = QString("/home/oakyildiz/mqp_2016_ws/src/walrus_xp/walrus_widget/resources/images/warnings/water1.jpg");
-    QString heat = QString("/home/oakyildiz/mqp_2016_ws/src/walrus_xp/walrus_widget/resources/images/warnings/overheat2.jpg");
-
 
 
     /* Radar */
@@ -54,11 +49,20 @@ void Overlay::initWidgets(){
     console_ = new Console(this,qnode_);
 
     /* Batteries */
-    batteries_= new BatteryPanel(this);
+    batteries_= new IndicatorsPanel( this,"batteries",QBoxLayout::LeftToRight);
 
+    BatteryIndicator* battery1 = new BatteryIndicator("battery1");
+    BatteryIndicator* battery2 = new BatteryIndicator("battery2");
+    BatteryIndicator* battery3 = new BatteryIndicator("battery3");
+    BatteryIndicator* battery4 = new BatteryIndicator("battery4");
+
+    batteries_->addIndicator( battery1 );
+    batteries_->addIndicator( battery2 );
+    batteries_->addIndicator( battery3 );
+    batteries_->addIndicator( battery4 );
 
     /* Warnings */
-    warnings_panel_ = new WarningsPanel(0);
+    warnings_panel_ = new WarningsPanel(this);
     //warnings_panel_->addWarning("first",wat);
     //warnings_panel_->showWarning("first");
 
@@ -73,37 +77,21 @@ void Overlay::initWidgets(){
 //    warnings_panel_->showWarning("second");
     /* Indicators */
 
-    Indicator* wifi = new Indicator(0,"wifi",wifi_icon);
+    IterIndicator* wifi = new IterIndicator("wifi",Indicators::Wifi::Poor);
+    wifi->addImage(Indicators::Wifi::Weak);
+    wifi->addImage(Indicators::Wifi::Fair);
+    wifi->addImage(Indicators::Wifi::Strong);
+    wifi->setErrorIndex(3);
 
-    comms_= new IndicatorsPanel(0,QBoxLayout::LeftToRight);
-    //comms_->addIndicator(wifi);
-    //comms_->addIndicator("controller", ctrl);
+    BaseIndicator* ctrl = new BaseIndicator("ctrl",Indicators::Controller);
+
+    comms_= new IndicatorsPanel(this,"some",QBoxLayout::TopToBottom);
+    comms_->addIndicator(wifi);
+    comms_->addIndicator(ctrl);
 
     /* Odometry*/
     tachometer_ = new OdometryDisplay(this);
-/* With Layout:
-    int grid_rows = 144;
-    int grid_cols = floor(grid_rows*16/9);
 
-    QGridLayout* gui_layout_ = new QGridLayout();
-
-    gui_layout_->setSpacing(0);
-
-    //change to normal placement
-    gui_layout_->addWidget(radar_,0,0,3,3);
-    gui_layout_->addWidget(cameras_,0,grid_cols-2,3,3);
-    gui_layout_->addWidget(console_,grid_rows-2,0,2,3);
-    gui_layout_->addWidget(batteries_,grid_rows,0,1,4);
-    gui_layout_->addWidget(warnam
-Ros shutdown, proceeding to close the gui.
-ings_panel_,grid_rows-1,3,1,3);
-    gui_layout_->addWidget(comms_,grid_rows-1,grid_cols-2,2,1);
-    gui_layout_->addWidget(tachometer_,grid_rows,grid_cols-1,1,2);
-
-
-    setLayout(gui_layout_);
-
-*/
 
 }
 

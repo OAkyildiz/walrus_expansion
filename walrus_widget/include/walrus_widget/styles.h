@@ -66,7 +66,7 @@ namespace Indicators {
 
  static const QString Battery1 = QString(img_path + "/battery/h-battery1.png");
 
- static const QString cotnroller = QString(img_path + "/indic/controller1.png");
+ static const QString Controller = QString(img_path + "/indic/controller1.png");
 
  namespace PC{
     static const QString CPU = QString(img_path + "/pc/ram2.png");

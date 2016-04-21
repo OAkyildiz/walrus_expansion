@@ -10,6 +10,6 @@ float32 cpu
 float32 mem
 float32 temp
 int8 wifi
-bool joy
+int8 joy
 float32[] batteries
 float32[] env

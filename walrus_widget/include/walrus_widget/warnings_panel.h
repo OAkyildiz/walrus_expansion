@@ -1,5 +1,5 @@
-#ifndef WARNINGSPANEL_H
-#define WARNINGSPANEL_H
+#ifndef WARNINGS_PANEL_H
+#define WARNINGS_PANEL_H
 
 #include <tr1/unordered_map>
 // #include <unordered_map> //for c++11
@@ -42,4 +42,4 @@ private:
 
 };
 
-#endif // WARNINGSPANEL_H
+#endif // WARNINGS_PANEL_H

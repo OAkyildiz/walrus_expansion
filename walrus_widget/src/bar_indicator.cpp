@@ -1,9 +1,9 @@
 #include "walrus_widget/bar_indicator.h"
 
-BarIndicator::BarIndicator(QWidget *parent = 0, QString name = "",
-                           QString icon_path = Indicators::Placeholder,
-                           Qt::Orientation orientation  = Qt::Horizontal):
-    BaseIndicator(parent,name,icon_path),
+BarIndicator::BarIndicator(QString name,
+                           QString icon_path,
+                           Qt::Orientation orientation):
+    BaseIndicator(name,icon_path),
     _orientation(orientation)
 {
     level_ = new QProgressBar(this);

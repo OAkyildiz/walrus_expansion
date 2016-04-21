@@ -6,9 +6,10 @@
 #include <QFrame>
 #include <QLCDNumber>
 
-#include "indicatorspanel.h"
+#include "indicators_panel.h"
+#include "iter_indicator.h"
 #include "console.h"
-#include "warningspanel.h"
+#include "warnings_panel.h"
 #include "battery_panel.h"
 #include "radar.h"
 #include "qnode.h"
@@ -37,8 +38,9 @@ protected:
     Radar* radar_;
     CameraDisplay* cameras_;
 
-    BatteryPanel* batteries_;
+    IndicatorsPanel* batteries_;
     Console* console_;
+
     WarningsPanel* warnings_panel_;
 
     IndicatorsPanel* comms_;

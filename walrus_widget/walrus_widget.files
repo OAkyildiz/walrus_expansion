@@ -10,8 +10,8 @@ include/walrus_widget/camera_display.h
 include/walrus_widget/console.h
 include/walrus_widget/glbuffers.h
 include/walrus_widget/glextensions.h
-include/walrus_widget/indicator.h
-include/walrus_widget/indicatorspanel.h
+include/walrus_widget/iter_indicator.h
+include/walrus_widget/indicators_panel.h
 include/walrus_widget/mainview.h
 include/walrus_widget/mapviz.h
 include/walrus_widget/odometry_display.h
@@ -21,7 +21,7 @@ include/walrus_widget/radar.h
 include/walrus_widget/robot_model.h
 include/walrus_widget/styles.h
 include/walrus_widget/warning.h
-include/walrus_widget/warningspanel.h
+include/walrus_widget/warnings_panel.h
 resources/images/battery/b-battery.png
 resources/images/battery/battery_gray.png
 resources/images/battery/h-battery1-charge.png
@@ -83,8 +83,8 @@ src/battery_indicator.cpp
 src/battery_panel.cpp
 src/camera_display.cpp
 src/console.cpp
-src/indicator.cpp
-src/indicatorspanel.cpp
+src/iter_indicator.cpp
+src/indicators_panel.cpp
 src/main.cpp
 src/mainview.cpp
 src/mapviz.cpp
@@ -94,7 +94,7 @@ src/qnode.cpp
 src/radar.cpp
 src/robot_model.cpp
 src/warning.cpp
-src/warningspanel.cpp
+src/warnings_panel.cpp
 walrus_widget_stash/CMake_qt_ros.txt
 walrus_widget_stash/CMakeLists.qt5.txt
 walrus_widget_stash/package_qt_ros.xml

@@ -1,16 +1,15 @@
 #include "walrus_widget/base_indicator.h"
 
 
-BaseIndicator::BaseIndicator(QWidget *parent, QString name, QString icon_path):
-    QWidget(parent),
-    name_(name),
-    _value(0)
-
+BaseIndicator::BaseIndicator(QString name, QString icon_path):
+    QWidget(0),
+    name_(name)
 {
     label_= new QLabel(this);
     nobar_= new QLabel(label_);
     icon_= new QPixmap( icon_path );
     nobar_icon_ = new QPixmap( Indicators::NoBar );
+    valueUpdated(0);
 }
 
 void BaseIndicator::valueUpdated(int value)
@@ -21,7 +20,8 @@ void BaseIndicator::valueUpdated(int value)
             nobar_->show();
         }
         else
-            nobar_->hide(); // assuming hide() already cheacks for visible
+            nobar_->hide(); /* assuming hide() already cheacks for visible,
+                            but the top if should handle that anyways */
         update(value);
 }
 

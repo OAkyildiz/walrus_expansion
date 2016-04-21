@@ -8,7 +8,7 @@ class BatteryIndicator : public BarIndicator
 {
     Q_OBJECT
 public:
-    explicit BatteryIndicator(QWidget *parent = 0, QString name = "");
+    explicit BatteryIndicator(QString name = "");
     virtual  ~BatteryIndicator() {}
 
 Q_SIGNALS:

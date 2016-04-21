@@ -14,10 +14,9 @@ class BaseIndicator : public QWidget
 
 public:
     static const int ERROR_VALUE = -1;
-    BaseIndicator(QWidget *parent =0, QString name = "", QString icon_path = Indicators::Placeholder);
+    BaseIndicator(QString name = "", QString icon_path = Indicators::Placeholder);
     virtual ~BaseIndicator() {delete icon_; delete label_; delete nobar_;}
     int addImage(QString resource);
-
 
     QString name() const;
 

@@ -1,4 +1,4 @@
-#include "walrus_widget/warningspanel.h"
+#include "walrus_widget/warnings_panel.h"
 
 WarningsPanel::WarningsPanel(QWidget *parent) : QFrame(parent),
     warnings_keys_(0)
@@ -13,7 +13,7 @@ WarningsPanel::WarningsPanel(QWidget *parent) : QFrame(parent),
 void WarningsPanel::addWarning(std::string name, QString image)
 {
 
-    warnings_dict_[name] = new Warning(0,QString::fromStdString(name),image);
+    warnings_dict_[name] = new Warning(QString::fromStdString(name),image);
     warnings_keys_.push_back(name);
 
 }

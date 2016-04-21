@@ -27,7 +27,7 @@ stat_dict = { 0: 'OK', 1: 'Warning', 2: 'Error', 3: 'Stale' }
 
 wifi_name='walrus'
 wifi_strength=0
-wifi_dict= {0: 'Disconnected', 1: 'Poor', 2: 'Fair' ,3: 'Strong'}
+wifi_dict= {:0: 'Disconnected', 1: 'Poor', 2: 'Fair' ,3: 'Strong'}
 
 controller_path='/dev/input/js0'
 controller_dict={0: 'Detected', 1: 'Not Found', 2: 'Problem' }
@@ -57,7 +57,10 @@ def check_wifi():
 
 def check_controller():
 
-    return not subprocess.call(['ls /dev/input | grep js0'], shell =True)
+    if subprocess.call(['ls /dev/input | grep js0'], shell =True):
+        return 0
+    else:
+        return -1
 
 
 def get_value_from_string(values, keys):

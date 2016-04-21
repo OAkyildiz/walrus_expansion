@@ -3,8 +3,8 @@
 #include <QGraphicsOpacityEffect>
 #include <QEasingCurve>
 
-Warning::Warning(QWidget* parent, QString name, QString icon_path):
-    BaseIndicator(parent,name,icon_path)
+Warning::Warning(QString name, QString icon_path):
+    BaseIndicator(name,icon_path)
 
 {
 

@@ -1,8 +1,8 @@
 
 #include "walrus_widget/battery_indicator.h"
 
-BatteryIndicator::BatteryIndicator(QWidget *parent, QString name) :
-    BarIndicator(parent,name, Indicators::Battery1, Qt::Horizontal)
+BatteryIndicator::BatteryIndicator( QString name) :
+    BarIndicator(name, Indicators::Battery1, Qt::Horizontal)
 
 {
 
@@ -21,16 +21,18 @@ void BatteryIndicator::repaintEvent(QPaintEvent * event)
 
 void BatteryIndicator::resizeEvent(QResizeEvent *event)
 {
+
     *icon_ = icon_->scaled(size());
 
     label_->resize(width(),height());
     label_->setPixmap(*icon_);
 
     nobar_->resize(width(),height());
-    nobar_->setPixmap(nobar_->pixmap()->scaled(size()));
+    nobar_->setPixmap(nobar_icon_->scaled(size()));
 
     level_->resize(width()*0.85,height());
     level_->move(width()*0.05,0);
+
 
    //setMask(maskedRegion);
 }

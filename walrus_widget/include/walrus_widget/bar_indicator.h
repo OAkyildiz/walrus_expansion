@@ -9,8 +9,8 @@ class BarIndicator : public BaseIndicator
 {
     Q_OBJECT
 public:
-    explicit BarIndicator(QWidget *parent, QString name,
-                          QString icon_path, Qt::Orientation orientation);
+    explicit BarIndicator(QString name = "", QString icon_path = Indicators::Placeholder,
+                          Qt::Orientation orientation = Qt::Horizontal);
     virtual ~BarIndicator() {delete level_;}
 
     Qt::Orientation orientation() const;
